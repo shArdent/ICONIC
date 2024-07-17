@@ -2,10 +2,8 @@
 
 import { PaginationBlock } from "@/app/components/PaginationBlock";
 import RequestCard from "@/app/components/request/RequestCard";
-import { usePathname } from "next/navigation";
 
 const page = () => {
-  const pathname = usePathname();
   return (
     <div className="px-3 py-10 md:py-5 md:px-5">
       <div className="pb-1 mb-5 w-full border-b-2 flex justify-between items-center">
@@ -18,7 +16,7 @@ const page = () => {
         })
         }
       </div>
-      <PaginationBlock active={parseInt(pathname[pathname.length - 1])}/>
+      <PaginationBlock/>
     </div>
   );
 };

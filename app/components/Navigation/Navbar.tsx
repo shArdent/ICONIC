@@ -12,9 +12,6 @@ const Navbar = () => {
   const user = useAuthStore((state) => state.user);
   const pathname = usePathname();
 
-  useEffect(() => {
-    console.log(pathname);
-  }, []);
 
   return (
     <div
