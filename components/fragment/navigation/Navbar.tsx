@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import useAuthStore from "../../context/AuthStore";
-import { MyDrawer } from "./NavDrawer";
+import useAuthStore from "../../../store/AuthStore";
+import { NavDrawerSign } from "./NavDrawerSign";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
@@ -35,7 +35,7 @@ const Navbar = () => {
         </li>
       </ul>
       <h1 className="text-white hidden md:block">{user.username}</h1>
-      <MyDrawer />
+      <NavDrawerSign />
     </div>
   );
 };

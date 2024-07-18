@@ -1,7 +1,7 @@
 "use client";
 
 import { Drawer } from "vaul";
-import useAuthStore from "../../context/AuthStore";
+import useAuthStore from "../../../store/AuthStore";
 import Link from "next/link";
 
 export function NavDrawerUnsign() {

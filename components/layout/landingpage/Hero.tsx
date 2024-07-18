@@ -1,9 +1,9 @@
 "use client";
 
-import useAuthStore from "@/app/context/AuthStore";
+import useAuthStore from "@/store/AuthStore";
 import Link from "next/link";
-import { NavDrawerUnsign } from "@/app/components/Navigation/NavDrawerUnsign";
-import { MyDrawer } from "@/app/components/Navigation/NavDrawer";
+import { NavDrawerUnsign } from "@/components/fragment/navigation/NavDrawerUnsign";
+import { NavDrawerSign } from "@/components/fragment/navigation/NavDrawerSign";
 
 const Hero = () => {
   const user = useAuthStore((state) => state.user);
@@ -35,7 +35,7 @@ const Hero = () => {
               </button>
               <h1 className="text-white text-[24px]">{user.username}</h1>
             </div>
-            <MyDrawer />
+            <NavDrawerSign />
           </div>
         ) : (
           <div>

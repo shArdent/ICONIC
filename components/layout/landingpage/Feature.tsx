@@ -1,5 +1,5 @@
-import FeatureCard from "@/app/components/landingpage/FeatureCard";
-import { FeatureCardMobile } from "@/app/components/landingpage/FeatureCardMobile";
+import FeatureCard from "@/components/fragment/landingpage/FeatureCard";
+import { FeatureCardMobile } from "@/components/fragment/landingpage/FeatureCardMobile";
 import { Droplets, HandHeart, Syringe } from "lucide-react";
 
 const Feature = () => {

@@ -1,7 +1,7 @@
-import Feature from "./Views/Landingpage/Feature";
-import Hero from "./Views/Landingpage/Hero";
-import Final from "./Views/Landingpage/Final";
-import Footer from "./Views/Landingpage/Footer";
+import Feature from "../components/layout/landingpage/Feature";
+import Hero from "../components/layout/landingpage/Hero";
+import Final from "../components/layout/landingpage/Final";
+import Footer from "../components/layout/landingpage/Footer";
 
 
 const Home = () => {

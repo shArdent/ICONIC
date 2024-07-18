@@ -3,28 +3,30 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import useAuthStore from "../../context/AuthStore";
+import { useState } from "react";
+import { loginAccount, setCookie } from "@/lib/auth";
 
 const Login = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const handleLogin = async (formdata: FormData) => {
+    setIsLoading(true);
+    const email = formdata.get("email") as string;
+    const password = formdata.get("password") as string;
 
-  const handleLogin = (formdata: FormData) => {
-    const formEmail = formdata.get("email") as string;
-    const password = formdata.get("password");
+    const result = await loginAccount({ email, password });
 
-    if (formEmail && password) {
-      setAuth({
-        email: formEmail as string,
-        username: formEmail.split('@')[0],
-        token: "token",
-        isLoggedIn: true,
-      });
-      router.push("/request");
+    if (!result.success) {
+      setError("email atau password anda salah");
+      return;
     }
+    
+    console.log(result)
 
-    return null;
+    setIsLoading(false);
   };
+
 
   return (
     <div className="h-[100dvh] bg-[#880808] flex items-center justify-center">
@@ -79,8 +81,11 @@ const Login = () => {
           </div>
 
           <button
-            className="bg-[#880808] w-full text-white px-3 py-2 rounded-sm text-xl font-bold"
+            className={`bg-[#880808] ${
+              isLoading ? "cursor-not-allowed" : "cursor-pointer"
+            } w-full text-white px-3 py-2 rounded-sm text-xl font-bold`}
             type="submit"
+            disabled={isLoading}
           >
             Masuk
           </button>

@@ -1,21 +1,25 @@
 "use client";
 
 import { Drawer } from "vaul";
-import useAuthStore from "../../context/AuthStore";
+import useAuthStore from "../../../store/AuthStore";
 import Link from "next/link";
+import { getCookie, Logout } from "@/lib/auth";
+import { useEffect, useState } from "react";
+import { cookies } from "next/headers";
 
-export function MyDrawer() {
-  const user = useAuthStore((state) => state.user);
-  const setAuth = useAuthStore((state) => state.setAuth);
+export function NavDrawerSign() {
+  const [token, setToken] = useState<string | null>("");
+  const [username, setUsername] = useState<string | null>("");
+  useEffect(() => {
+    setToken(getCookie("token"));
+    setUsername(getCookie("username"));
+  }, [])
 
   const handleLogout = () => {
-    setAuth({
-      email: "",
-      username: "",
-      isLoggedIn: false,
-      token: "",
-    })
+    Logout("token");
   }
+
+
   return (
     <Drawer.Root direction="right">
       <Drawer.Trigger asChild>
@@ -42,7 +46,7 @@ export function MyDrawer() {
           <div className="p-4 bg-white flex-1 h-full">
             <div className="max-w-md mx-auto">
               <Drawer.Title className="font-medium text-xl mb-4 px-2 py-2">
-                {user.username}
+                anonim
               </Drawer.Title>
               {/* Menu Disini */}
               <div className="flex flex-col gap-20">
