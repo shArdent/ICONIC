@@ -1,7 +1,7 @@
 "use client";
 
-import { PaginationBlock } from "@/app/components/PaginationBlock";
-import RequestCard from "@/app/components/request/RequestCard";
+import { PaginationBlock } from "@/components/fragment/PaginationBlock";
+import RequestCard from "@/components/fragment/request/RequestCard";
 
 const page = () => {
   return (
