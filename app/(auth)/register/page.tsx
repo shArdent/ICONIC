@@ -115,7 +115,7 @@ const Login = () => {
           </div>
 
           <button
-            className="bg-[#880808] w-full text-white px-3 py-2 md:py-4 rounded-sm text-2xl font-bold col-span-2"
+            className={`${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"} bg-[#880808] w-full text-white px-3 py-2 md:py-4 rounded-sm text-2xl font-bold col-span-2`}
             type="submit"
             disabled={isLoading}
           >

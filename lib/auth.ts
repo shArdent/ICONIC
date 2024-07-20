@@ -1,4 +1,6 @@
 import { FormDataLogin, FormDataRegister, LoginResponse } from "@/types/authTypes"
+import axios from "axios"
+import { headers } from "next/headers"
 
 export async function registerAccount(data: FormDataRegister) {
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "auth/register", {
@@ -42,14 +44,21 @@ export const getCookie = (name: string) => {
     }, null as string | null);
 }
 
-export const Logout = async (name: string) => {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "auth/logout", {
-        method: "POST",
-        headers: {
-            "authorization": "Bearer " + getCookie("token"),
-            "Content-Type": "application/json"
-        },
-    })
+export const Logout = async () => {
+    // axios.post(process.env.NEXT_PUBLIC_API_URL + "auth/logout", {
+    //     headers: {
+    //         "Authorization": "Bearer " + localStorage.getItem("token"),
+    //         "Content-Type": "application/json"
+    //     }
+    // }).then((res) => {
+        
+    // }).catch((err) => {
+    //     console.log(err);
+    // })
 
-    setCookie(name, '', -1);
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user");
+
+        window.location.reload();
 };

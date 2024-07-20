@@ -1,22 +1,21 @@
 "use client";
 
-import useAuthStore from "@/store/AuthStore";
 import Link from "next/link";
 import { NavDrawerUnsign } from "@/components/fragment/navigation/NavDrawerUnsign";
 import { NavDrawerSign } from "@/components/fragment/navigation/NavDrawerSign";
+import { Button } from "@/components/ui/button";
+import { Logout } from "@/lib/auth";
+import { User } from "@/types/authTypes";
+import { useEffect, useState } from "react";
+
+
 
 const Hero = () => {
-  const user = useAuthStore((state) => state.user);
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const [user, setUser] = useState<User | null>(null)
 
-  const handleLogout = () => {
-    setAuth({
-      email: "",
-      username: "",
-      isLoggedIn: false,
-      token: "",
-    });
-  };
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user") as string))
+  }, [])
 
   return (
     <div className="h-auto md:h-auto bg-[#880808] px-8 md:px-[70px] py-[40px] md:py-[40px] flex flex-col md:items-start items-center gap-7 md:gap-[67px]">
@@ -24,27 +23,21 @@ const Hero = () => {
         <h1 className="text-white font-bold text-4xl md:text-[48px]">
           DonorKan
         </h1>
-        {user.isLoggedIn ? (
+        {user ? (
           <div>
             <div className="md:flex hidden gap-[60px] h-[50px] items-center">
-              <button
-                onClick={handleLogout}
-                className="text-[#880808] px-[20px] py-[6px] bg-[#FFFFFF] rounded-sm h-[50px] font-bold w-[120px] text-[24px]"
-              >
+              <Button variant={"secondary"} size={"lg"} onClick={() => Logout()}>
                 Logout
-              </button>
+              </Button>
               <h1 className="text-white text-[24px]">{user.username}</h1>
             </div>
-            <NavDrawerSign />
+            <NavDrawerSign username={user.username} />
           </div>
         ) : (
           <div>
-            <Link
-              className="hidden md:block text-[#880808] px-[25px] py-[6px] bg-[#FFFFFF] rounded-sm  font-bold text-[24px]"
-              href={"/login"}
-            >
-              Masuk
-            </Link>
+            <Button asChild variant={"secondary"} size={"lg"} className="font-extrabold text-xl rounded py-6 hidden md:flex">
+              <Link href={"/login"}>Masuk</Link>
+            </Button>
             <NavDrawerUnsign />
           </div>
         )}
@@ -57,10 +50,14 @@ const Hero = () => {
           Bergabunglah dengan kami dalam menyelamatkan nyawa. Donorkan darah
           Anda hari ini dan jadilah pahlawan bagi mereka yang membutuhkan.
         </p>
-        <Link href={user.isLoggedIn ? "/request" : "/login"}>
-          <button className="text-[#880808] px-[25px] md:py-[6px] bg-white rounded-sm h-[70px] font-bold text-[24px]">
+        <Link href={user ? "/request" : "/login"}>
+          <Button
+            variant={"secondary"}
+            className="font-bold text-2xl px-5 py-7 rounded-sm"
+            size={"lg"}
+          >
             Donorkan Sekarang
-          </button>
+          </Button>
         </Link>
       </div>
     </div>

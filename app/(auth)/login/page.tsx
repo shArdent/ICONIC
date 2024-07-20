@@ -4,29 +4,44 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
-import { loginAccount, setCookie } from "@/lib/auth";
+import { setCookie } from "@/lib/auth";
+import { cookies } from "next/headers";
+import axios from "axios";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
   const handleLogin = async (formdata: FormData) => {
     setIsLoading(true);
     const email = formdata.get("email") as string;
     const password = formdata.get("password") as string;
 
-    const result = await loginAccount({ email, password });
+    // axios.defaults.withCredentials = true;
 
-    if (!result.success) {
-      setError("email atau password anda salah");
-      return;
-    }
-    
-    console.log(result)
-
-    setIsLoading(false);
+    axios
+      .post(
+        process.env.NEXT_PUBLIC_API_URL + "auth/login",
+        {
+          email,
+          password,
+        }
+      )
+      .then(({ data }) => {
+        console.log(data);
+        localStorage.setItem("token",data.accessToken);
+        localStorage.setItem("refreshToken",data.refreshToken);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        router.push("/");
+      })
+      .catch((err) => {
+        if (err.response.status == 404) {
+          setError("Username atau password salah");
+        }
+        setIsLoading(false);
+      });
   };
-
 
   return (
     <div className="h-[100dvh] bg-[#880808] flex items-center justify-center">
@@ -43,9 +58,10 @@ const Login = () => {
 
         <form className="flex flex-col gap-3" action={handleLogin}>
           <label htmlFor="email" className="flex flex-col gap-2">
+            {error && <p className="text-red-500">{error}</p>}
             Alamat Email
             <input
-              className="border-2 border-[#880808] p-3 rounded-lg focus:border-[#ce3e3e] focus:outline-none focus:ring-0 transition-all"
+              className="border-2 border-primary p-3 rounded-lg focus:border-[#ce3e3e] focus:outline-none focus:ring-0 transition-all"
               type="email"
               placeholder="example@example.com"
               name="email"
@@ -82,7 +98,7 @@ const Login = () => {
 
           <button
             className={`bg-[#880808] ${
-              isLoading ? "cursor-not-allowed" : "cursor-pointer"
+              isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
             } w-full text-white px-3 py-2 rounded-sm text-xl font-bold`}
             type="submit"
             disabled={isLoading}

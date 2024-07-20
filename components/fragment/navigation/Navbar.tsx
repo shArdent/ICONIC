@@ -4,14 +4,17 @@ import Link from "next/link";
 import useAuthStore from "../../../store/AuthStore";
 import { NavDrawerSign } from "./NavDrawerSign";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { User } from "@/types/authTypes";
 
 const Navbar = () => {
+  const [user, setUser] = useState<User | null>(null);
   const disable = ["/", "/login", "/register"];
-
-  const user = useAuthStore((state) => state.user);
   const pathname = usePathname();
 
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user") as string));
+  }, []);
 
   return (
     <div
@@ -34,8 +37,8 @@ const Navbar = () => {
           <Link href={"/request"}>Daftar Donor</Link>
         </li>
       </ul>
-      <h1 className="text-white hidden md:block">{user.username}</h1>
-      <NavDrawerSign />
+      <h1 className="text-white hidden md:block">{user?.username}</h1>
+      <NavDrawerSign username={user?.username as string} />
     </div>
   );
 };

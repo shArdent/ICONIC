@@ -1,24 +1,10 @@
 "use client";
 
 import { Drawer } from "vaul";
-import useAuthStore from "../../../store/AuthStore";
 import Link from "next/link";
-import { getCookie, Logout } from "@/lib/auth";
-import { useEffect, useState } from "react";
-import { cookies } from "next/headers";
+import { Logout } from "@/lib/auth";
 
-export function NavDrawerSign() {
-  const [token, setToken] = useState<string | null>("");
-  const [username, setUsername] = useState<string | null>("");
-  useEffect(() => {
-    setToken(getCookie("token"));
-    setUsername(getCookie("username"));
-  }, [])
-
-  const handleLogout = () => {
-    Logout("token");
-  }
-
+export function NavDrawerSign({ username }: { username: string | null}) {
 
   return (
     <Drawer.Root direction="right">
@@ -46,7 +32,7 @@ export function NavDrawerSign() {
           <div className="p-4 bg-white flex-1 h-full">
             <div className="max-w-md mx-auto">
               <Drawer.Title className="font-medium text-xl mb-4 px-2 py-2">
-                anonim
+                {username}
               </Drawer.Title>
               {/* Menu Disini */}
               <div className="flex flex-col gap-20">
@@ -71,7 +57,12 @@ export function NavDrawerSign() {
                   </Link>
                 </ul>
 
-                <button onClick={handleLogout} className="border-t-2 py-2 px-2 hover:scale-105 transition-all cursor-pointer">Logout</button>
+                <button
+                  onClick={() => Logout()}
+                  className="border-t-2 py-2 px-2 hover:scale-105 transition-all cursor-pointer"
+                >
+                  Logout
+                </button>
               </div>
             </div>
           </div>

@@ -19,6 +19,26 @@ export type LoginResponse = {
     error?: string;
   };
 
+export type User = {
+    username : string,
+    email : string,
+    email_verified : boolean,
+    phone_verified : boolean,
+    sub : string
+
+}
+
+export type Request = {
+    id : number,
+    use_id : string,
+    bloodType : string,
+    quantity : number,
+    hospital_name : string,
+    request_at : Date,
+    lat : number,
+    long : number
+}
+
 export const registrationShema : ZodType<FormDataRegister> = z.object({
     username : z.string().min(3, { message : "Username harus lebih dari 3 karakter"}),
     email : z.string().email({message : "Email tidak valid"}),
