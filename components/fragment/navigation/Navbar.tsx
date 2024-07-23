@@ -21,7 +21,7 @@ const Navbar = () => {
       className={
         disable.includes(pathname)
           ? "hidden"
-          : "sticky top-0 left-0 w-full flex justify-between bg-[#880808] items-center px-5 py-[20px]"
+          : "sticky top-0 left-0 w-full flex justify-between bg-[#880808] z-50 items-center px-10 py-[20px]"
       }
     >
       <Link href={"/"}>

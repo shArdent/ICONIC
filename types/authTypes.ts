@@ -30,14 +30,21 @@ export type User = {
 
 export type Request = {
     id : number,
-    use_id : string,
-    bloodType : string,
+    user_id : string,
+    name : string,
+    blood_type : string,
     quantity : number,
     hospital_name : string,
     request_at : Date,
     lat : number,
     long : number
 }
+
+export type Position = {
+    lat : number,
+    lng : number
+}
+
 
 export const registrationShema : ZodType<FormDataRegister> = z.object({
     username : z.string().min(3, { message : "Username harus lebih dari 3 karakter"}),

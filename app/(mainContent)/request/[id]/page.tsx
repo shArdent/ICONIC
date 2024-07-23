@@ -1,49 +1,59 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { useState } from "react";
+import {
+  GoogleMap,
+  Libraries,
+  MarkerF,
+  useJsApiLoader,
+} from "@react-google-maps/api";
+import { Position } from "@/types/authTypes";
+import { useLoadGoogleMaps } from "@/hooks/use-load-google-maps";
 
 const containerStyle = {
   width: "400px",
   height: "400px",
 };
 
-const center = {
-  lat: -3.745,
-  lng: -38.523,
-};
+const libs: Libraries = ["places"];
 
-const page = ({ params }: { params: { id: string } }) => {
-  const [map, setMap] = useState<any>(null);
+const Page = ({ params }: { params: { id: string } }) => {
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [places, setPlaces] = useState<google.maps.places.PlaceResult[] | null>(
+    null
+  );
+  const [service, setService] =
+    useState<google.maps.places.PlacesService | null>(null);
 
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
-  });
+  const { isLoaded, loadError, currentPosition } = useLoadGoogleMaps();
 
-  useEffect(() => {
-    // fetch(process.env.NEXT_PUBLIC_API_URL + "request/" + params.id, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Authorization": "Bearer " + localStorage.getItem("token"),
-    //   },
-    // });
-  });
+  const tasik: Position = {
+    lat: -7.328647900226865,
+    lng: 108.23270650372348,
+  };
+
   return (
     <div>
       {isLoaded && (
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={center}
+          center={tasik}
           zoom={10}
+          options={{
+            zoomControl: true,
+            streetViewControl: false,
+            fullscreenControl: false,
+            mapTypeControl: false,
+          }}
           onLoad={(map) => {
             setMap(map);
           }}
-        ></GoogleMap>
+        >
+          <MarkerF position={currentPosition as Position} />
+        </GoogleMap>
       )}
     </div>
   );
 };
 
-export default page;
+export default Page;

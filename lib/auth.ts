@@ -3,17 +3,13 @@ import axios from "axios"
 import { headers } from "next/headers"
 
 export async function registerAccount(data: FormDataRegister) {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "auth/register", {
-        method: "POST",
+    const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "auth/register", data, {
         headers: {
             "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
+        }
     })
 
-    const result = await response.json()
-
-    return result
+    return response
 }
 
 export async function loginAccount(data: FormDataLogin): Promise<any | LoginResponse> {
@@ -45,20 +41,20 @@ export const getCookie = (name: string) => {
 }
 
 export const Logout = async () => {
-    // axios.post(process.env.NEXT_PUBLIC_API_URL + "auth/logout", {
-    //     headers: {
-    //         "Authorization": "Bearer " + localStorage.getItem("token"),
-    //         "Content-Type": "application/json"
-    //     }
-    // }).then((res) => {
-        
-    // }).catch((err) => {
-    //     console.log(err);
-    // })
-
+    axios.post(process.env.NEXT_PUBLIC_API_URL + "auth/logout", {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json"
+        }
+    }).then((res) => {
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("user");
 
         window.location.reload();
+    }).catch((err) => {
+        console.log(err);
+    })
+
+
 };

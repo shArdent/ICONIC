@@ -9,7 +9,7 @@ import { useState } from "react";
 import { FormDataRegister, registrationShema } from "@/types/authTypes";
 import { registerAccount } from "@/lib/auth";
 
-const Login = () => {
+const Register = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -127,4 +127,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

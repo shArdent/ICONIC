@@ -21,24 +21,20 @@ const Login = () => {
     // axios.defaults.withCredentials = true;
 
     axios
-      .post(
-        process.env.NEXT_PUBLIC_API_URL + "auth/login",
-        {
-          email,
-          password,
-        }
-      )
+      .post(process.env.NEXT_PUBLIC_API_URL + "auth/login", {
+        email,
+        password,
+      })
       .then(({ data }) => {
         console.log(data);
-        localStorage.setItem("token",data.accessToken);
-        localStorage.setItem("refreshToken",data.refreshToken);
+        localStorage.setItem("token", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
         localStorage.setItem("user", JSON.stringify(data.user));
         router.push("/");
       })
       .catch((err) => {
-        if (err.response.status == 404) {
-          setError("Username atau password salah");
-        }
+        console.log(err);
+        setError("Username atau password salah");
         setIsLoading(false);
       });
   };
