@@ -20,19 +20,33 @@ import {
 } from "@/components/ui/popover";
 import { starterPlaces } from "@/lib/fetch-map";
 import { useLoadGoogleMaps } from "@/hooks/use-load-google-maps";
+import { FormControl } from "@/components/ui/form";
+import { UseFormReturn } from "react-hook-form";
+import { NewRequest } from "@/types/authTypes";
 
-export function RsSearch() {
-  const [open, setOpen] = React.useState(false);
-  const [places, setPlaces] = React.useState<any>(null);
+interface Places extends google.maps.places.PlaceResult {
+  displayName: string;
+  id: string;
+  location: google.maps.LatLng;
+}
+
+export function RsSearch({
+  form,
+}: {
+  form: UseFormReturn<NewRequest, any, undefined>;
+}) {
+  const [selectedValue, setSelectedValue] = React.useState<Places | null>(null);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [places, setPlaces] = React.useState<Places[] | null>(null);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [selectedStatus, setSelectedStatus] = React.useState<any>(null);
 
   const { isLoaded } = useLoadGoogleMaps();
+
 
   React.useEffect(() => {
     if (isLoaded) {
       starterPlaces().then((data) => {
-        setPlaces(data);
+        setPlaces(data as Places[]);
       });
     }
   }, [isLoaded]);
@@ -41,15 +55,22 @@ export function RsSearch() {
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[60%] justify-start">
-            {selectedStatus ? <>{selectedStatus}</> : <>Pilih Rumah Sakit</>}
-          </Button>
+          <FormControl>
+            <Button variant="outline" className="justify-start">
+              {selectedValue ? (
+                <>{selectedValue.displayName}</>
+              ) : (
+                <>Pilih Rumah Sakit</>
+              )}
+            </Button>
+          </FormControl>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
           <StatusList
+            form={form}
             setOpen={setOpen}
             places={places}
-            setSelectedStatus={setSelectedStatus}
+            setSelectedValue={setSelectedValue}
           />
         </PopoverContent>
       </Popover>
@@ -59,16 +80,23 @@ export function RsSearch() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="w-[150px] justify-start">
-          {selectedStatus ? <>{selectedStatus}</> : <>Pilih Rumah Sakit</>}
-        </Button>
+        <FormControl>
+          <Button variant="outline" className="w-auto text-wrap justify-start">
+            {selectedValue ? (
+              <>{selectedValue.displayName}</>
+            ) : (
+              <>Pilih Rumah Sakit</>
+            )}
+          </Button>
+        </FormControl>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mt-4 border-t">
           <StatusList
+            form={form}
             places={places}
             setOpen={setOpen}
-            setSelectedStatus={setSelectedStatus}
+            setSelectedValue={setSelectedValue}
           />
         </div>
       </DrawerContent>
@@ -77,13 +105,15 @@ export function RsSearch() {
 }
 
 function StatusList({
+  form,
   setOpen,
-  setSelectedStatus,
   places,
+  setSelectedValue,
 }: {
-  places: any;
+  form: UseFormReturn<NewRequest, any, undefined>;
+  places: Places[] | null;
   setOpen: (open: boolean) => void;
-  setSelectedStatus: (status: any) => void;
+  setSelectedValue: (value: Places | null) => void;
 }) {
   return (
     <Command>
@@ -91,15 +121,29 @@ function StatusList({
       <CommandList>
         <CommandEmpty>Tidak Ditemukan</CommandEmpty>
         <CommandGroup>
-          {places?.map((place: any) => (
+          {places?.map((place: Places) => (
             <CommandItem
-              key={place.id}
+              key={place.place_id}
               value={place.displayName}
               onSelect={(value) => {
-                setSelectedStatus(
-                  places.find((priority: any) => priority.displayName === value)
-                    .displayName || null
+                form.setValue(
+                  "rumahSakit.displayName",
+                  places.find(
+                    (priority: any) => priority.displayName === value
+                  )!.displayName as string
                 );
+                form.setValue("rumahSakit.id", places.find((priority: any) => priority.displayName === value)!.id as string);
+                form.setValue(
+                  "rumahSakit.koordinat.lat",
+                  places.find((priority: any) => priority.displayName === value)!.location.lat() as number
+                );
+                form.setValue(
+                  "rumahSakit.koordinat.lng",
+                  places.find((priority: any) => priority.displayName === value)!.location.lng() as number
+                );
+
+                setSelectedValue(place);
+
                 setOpen(false);
               }}
             >
