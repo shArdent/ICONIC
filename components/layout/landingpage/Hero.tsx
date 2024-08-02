@@ -8,14 +8,12 @@ import { Logout } from "@/lib/auth";
 import { User } from "@/types/authTypes";
 import { useEffect, useState } from "react";
 
-
-
 const Hero = () => {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user") as string))
-  }, [])
+    setUser(JSON.parse(localStorage.getItem("user") as string));
+  }, []);
 
   return (
     <div className="h-auto md:h-auto bg-[#880808] px-8 md:px-[70px] py-[40px] md:py-[40px] flex flex-col md:items-start items-center gap-7 md:gap-[67px]">
@@ -26,7 +24,12 @@ const Hero = () => {
         {user ? (
           <div>
             <div className="md:flex hidden gap-[60px] h-[50px] items-center">
-              <Button variant={"secondary"} size={"lg"} onClick={() => Logout()}>
+              <Button
+                variant={"secondary"}
+                size={"lg"}
+                className="font-bold text-xl"
+                onClick={() => Logout()}
+              >
                 Logout
               </Button>
               <h1 className="text-white text-[24px]">{user.username}</h1>
@@ -35,7 +38,12 @@ const Hero = () => {
           </div>
         ) : (
           <div>
-            <Button asChild variant={"secondary"} size={"lg"} className="font-extrabold text-xl rounded py-6 hidden md:flex">
+            <Button
+              asChild
+              variant={"secondary"}
+              size={"lg"}
+              className="font-extrabold text-xl rounded py-6 hidden md:flex"
+            >
               <Link href={"/login"}>Masuk</Link>
             </Button>
             <NavDrawerUnsign />

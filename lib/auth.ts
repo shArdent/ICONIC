@@ -1,6 +1,5 @@
 import { FormDataLogin, FormDataRegister, LoginResponse } from "@/types/authTypes"
 import axios from "axios"
-import { headers } from "next/headers"
 
 export async function registerAccount(data: FormDataRegister) {
     const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "auth/register", data, {
@@ -51,8 +50,9 @@ export const Logout = async () => {
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("user");
 
-        window.location.reload();
+        window.location.href = "/login";
     }).catch((err) => {
+
         console.log(err);
     })
 

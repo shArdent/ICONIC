@@ -7,25 +7,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const GolonganDarahSelect = ({ field }: { field: any }) => {
+const JenisKelaminSelect = ({ field }: { field: any }) => {
   return (
     <Select onValueChange={field.onChange} defaultValue={field.value}>
       <FormControl>
         <SelectTrigger>
           <SelectValue
             className="border-none shadow bg-[#f0f0f0]"
-            placeholder="Pilih Golongan Darah"
+            placeholder="Pilih Jenis Kelamin"
           />
         </SelectTrigger>
       </FormControl>
       <SelectContent>
-        <SelectItem value="A">A</SelectItem>
-        <SelectItem value="B">B</SelectItem>
-        <SelectItem value="AB">AB</SelectItem>
-        <SelectItem value="O">O</SelectItem>
+        <SelectItem value="Laki-laki">Laki-laki</SelectItem>
+        <SelectItem value="Perempuan">Perempuan</SelectItem>
       </SelectContent>
     </Select>
   );
 };
 
-export default GolonganDarahSelect;
+export default JenisKelaminSelect;

@@ -22,7 +22,7 @@ import { starterPlaces } from "@/lib/fetch-map";
 import { useLoadGoogleMaps } from "@/hooks/use-load-google-maps";
 import { FormControl } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
-import { NewRequest } from "@/types/authTypes";
+import { NewRequest } from "@/types/requestTypes";
 
 interface Places extends google.maps.places.PlaceResult {
   displayName: string;
@@ -39,17 +39,28 @@ export function RsSearch({
   const [open, setOpen] = React.useState<boolean>(false);
   const [places, setPlaces] = React.useState<Places[] | null>(null);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [currentPosition, setCurrentPosition] = React.useState<any>(null);
 
-  const { isLoaded } = useLoadGoogleMaps();
-
+  const { isLoaded, loadError } = useLoadGoogleMaps();
 
   React.useEffect(() => {
-    if (isLoaded) {
-      starterPlaces().then((data) => {
-        setPlaces(data as Places[]);
+    if (isLoaded && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setCurrentPosition({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
       });
     }
   }, [isLoaded]);
+
+  React.useEffect(() => {
+    if (isLoaded && !!currentPosition) {
+      starterPlaces(currentPosition).then((data) => {
+        setPlaces(data as Places[]);
+      });
+    }
+  }, [currentPosition]);
 
   if (isDesktop) {
     return (
@@ -132,14 +143,23 @@ function StatusList({
                     (priority: any) => priority.displayName === value
                   )!.displayName as string
                 );
-                form.setValue("rumahSakit.id", places.find((priority: any) => priority.displayName === value)!.id as string);
+                form.setValue(
+                  "rumahSakit.id",
+                  places.find(
+                    (priority: any) => priority.displayName === value
+                  )!.id as string
+                );
                 form.setValue(
                   "rumahSakit.koordinat.lat",
-                  places.find((priority: any) => priority.displayName === value)!.location.lat() as number
+                  places
+                    .find((priority: any) => priority.displayName === value)!
+                    .location.lat() as number
                 );
                 form.setValue(
                   "rumahSakit.koordinat.lng",
-                  places.find((priority: any) => priority.displayName === value)!.location.lng() as number
+                  places
+                    .find((priority: any) => priority.displayName === value)!
+                    .location.lng() as number
                 );
 
                 setSelectedValue(place);

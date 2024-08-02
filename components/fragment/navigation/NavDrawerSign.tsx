@@ -50,7 +50,7 @@ export function NavDrawerSign({ username }: { username: string | null}) {
                     <li>Donor Sekarang</li>
                   </Link>
                   <Link
-                    href={"/request"}
+                    href={"/account/profile"}
                     className="border-b px-2 hover:translate-x-2 transition-all cursor-pointer py-2 rounded"
                   >
                     <li>Akun</li>

@@ -3,7 +3,6 @@
 import GolonganDarahSelect from "@/components/fragment/request/GolonganDarahSelect";
 import NewRequestConfirm from "@/components/fragment/request/NewRequestConfirm";
 import { RsSearch } from "@/components/fragment/request/RsComboBox";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormField,
@@ -12,15 +11,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { NewRequest, NewRequestSchema } from "@/types/authTypes";
+import { NewRequest, NewRequestSchema } from "@/types/requestTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const NewRequestPage = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [newRequestData, setNewRequestData] = useState<NewRequest | null>(null);
   const form = useForm<z.infer<typeof NewRequestSchema>>({
     resolver: zodResolver(NewRequestSchema),
@@ -28,7 +25,6 @@ const NewRequestPage = () => {
 
   const onSubmit = (values: z.infer<typeof NewRequestSchema>) => {
     setNewRequestData(values);
-    console.log(newRequestData)
   };
 
   return (
@@ -115,7 +111,7 @@ const NewRequestPage = () => {
               </FormItem>
             )}
           />
-          <NewRequestConfirm isLoading={isLoading} newRequestData={newRequestData}/>
+          <NewRequestConfirm newRequestData={newRequestData}/>
         </form>
       </Form>
     </div>

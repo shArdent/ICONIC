@@ -15,7 +15,7 @@ export function ShareDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size={"request"} variant={"blackwhite"}>Bagikan</Button>
+        <Button size={"request"} variant={"blackwhite"} className=" h-full">Bagikan</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

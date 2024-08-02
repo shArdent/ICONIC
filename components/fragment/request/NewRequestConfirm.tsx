@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,19 +12,22 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { NewRequest } from "@/types/authTypes";
+import { NewRequest } from "@/types/requestTypes";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const NewRequestConfirm = ({
-  isLoading,
   newRequestData,
 }: {
-  isLoading: boolean;
   newRequestData: NewRequest | null;
 }) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const postNewRequest = () => {
     const newRequest = {
       name: newRequestData?.nama,
+      recipientAddress: newRequestData?.alamat,
       bloodType: newRequestData?.golonganDarah,
       quantity: newRequestData?.kuantitas,
       hospitalName: newRequestData?.rumahSakit.displayName,
@@ -30,16 +35,25 @@ const NewRequestConfirm = ({
       longitude: newRequestData?.rumahSakit.koordinat.lng,
     };
 
+    console.log(newRequest);
+
     try {
+      setIsLoading(true);
       axios
-        .post(process.env.NEXT_PUBLIC_NEW_REQUEST + "requests", newRequest, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
+        .post(
+          "https://donate-blood-api-development.up.railway.app/api/v1/requests",
+          newRequest,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
         .then((res) => {
           console.log(res);
+          setIsLoading(false);
+          router.push("/request");
         })
         .catch((err) => {
           console.log(err);

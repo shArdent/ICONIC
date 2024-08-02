@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import useAuthStore from "../../../store/AuthStore";
 import { NavDrawerSign } from "./NavDrawerSign";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@/types/authTypes";
+import ProfilePopover from "../ProfilePopover";
 
 const Navbar = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -37,7 +37,7 @@ const Navbar = () => {
           <Link href={"/request"}>Daftar Donor</Link>
         </li>
       </ul>
-      <h1 className="text-white hidden md:block">{user?.username}</h1>
+      <ProfilePopover username={user?.username as string} />
       <NavDrawerSign username={user?.username as string} />
     </div>
   );

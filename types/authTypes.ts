@@ -20,49 +20,16 @@ export type LoginResponse = {
 };
 
 export type User = {
+    id: string,
+    address?: string | undefined,
     username: string,
     email: string,
-    email_verified: boolean,
-    phone_verified: boolean,
-    sub: string
-
-}
-
-export type Request = {
-    id: number,
-    user_id: string,
-    name: string,
-    blood_type: string,
-    quantity: number,
-    hospital_name: string,
-    request_at: Date,
-    lat: number,
-    long: number
-}
-
-export type Position = {
-    lat: number,
-    lng: number
-}
-
-export type RsDetail = {
-    id: number,
-    name: string,
-    address: string,
-    lat: number,
-    long: number
-}
-
-export type NewRequest = {
-    nama: string,
-    golonganDarah: string,
-    alamat: string,
-    kuantitas: number,
-    rumahSakit: {
-        id: string,
-        displayName: string,
-        koordinat: Position
-    }
+    birthdate?: string,
+    blood_type?: string,
+    phone?: string,
+    gender?: string,
+    first_name?: string,
+    last_name?: string,
 }
 
 
@@ -76,32 +43,16 @@ export const registrationShema: ZodType<FormDataRegister> = z.object({
     path: ["confirmPassword"]
 })
 
-export const NewRequestSchema: ZodType<NewRequest> = z.object({
-    nama: z.string({
-        required_error: "Nama harus diisi",
-    }),
-    golonganDarah: z.string({
-        required_error: "Golongan Darah harus diisi",
-    }),
-    alamat: z.string({
-        required_error: "Alamat harus diisi sesuai ktp",
-    }),
+export const profileDataSchema: ZodType<User> = z.object({
+    id: z.string(),
+    username: z.string().min(3, { message: "Username harus lebih dari 3 karakter" }),
+    email: z.string().email({ message: "Email tidak valid" }),
+    birthdate: z.string().optional(),
+    blood_type: z.string().optional(),
+    phone: z.string().optional(),
+    gender: z.string().optional(),
+    first_name: z.string().optional(),
+    last_name: z.string().optional(),
+    address: z.string().optional(),
 
-    kuantitas: z.coerce
-    .number({
-      required_error: "Kuantitas harus diisi",
-      invalid_type_error: "Kuantitas harus berupa angka",
-    })
-    .int()
-    .positive()
-    .min(1, { message: "Minimal kuantitas 1" }),
-
-    rumahSakit: z.object({
-        id: z.string(),
-        displayName: z.string(),
-        koordinat: z.object({
-            lat: z.number(),
-            lng: z.number(),
-        })
-    }),
-});
+})

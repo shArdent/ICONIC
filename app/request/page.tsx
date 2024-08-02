@@ -3,12 +3,13 @@
 import { PaginationBlock } from "@/components/fragment/PaginationBlock";
 import RequestCard from "@/components/fragment/request/RequestCard";
 import { Button } from "@/components/ui/button";
-import { Position, Request } from "@/types/authTypes";
+import { Position, Request } from "@/types/requestTypes";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const RequestsPage = () => {
+  
   const [requests, setRequests] = useState<Request[] | null>(null);
   const [currentPosition, setCurrentPossition] = useState<Position | null>(
     null
@@ -35,28 +36,19 @@ const RequestsPage = () => {
         }
       )
       .then(({ data }) => {
-        console.log(data.data);
         setRequests(data.data);
       })
       .catch((err) => {
-        console.log(err);
         setError("Gagal Mendapatkan Data dari server");
-      })
-      .finally(() => {});
-  }, []);
-
-  const showPos = () => {
-    console.log(currentPosition);
-  };
+      });
+  }, [currentPosition?.lat, currentPosition?.lng]);
 
   return (
     <div className="px-3 py-10 md:py-5 md:px-5">
       <div className="pb-1 mb-5 w-full border-b-2 flex justify-between items-center">
         <h1 className="text-3xl font-bold">Permintaan Darah</h1>
         <Link href="/request/new">
-          <Button className="rounded-sm text-lg" onClick={showPos}>
-            Buat Permintaan
-          </Button>
+          <Button className="rounded-sm text-lg">Buat Permintaan</Button>
         </Link>
         {/* <button className="text-nowrap px-4 py-3 rounded bg-primary font-bold text-white">Buat Permintaan</button> */}
       </div>
@@ -75,7 +67,6 @@ const RequestsPage = () => {
                 />
               ))}
             </div>
-            <PaginationBlock />
           </div>
         ) : (
           <p>{error}</p>
