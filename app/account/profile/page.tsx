@@ -17,33 +17,29 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { profileDataSchema, User } from "@/types/authTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { TypeOf, z } from "zod";
+import useAxiosAuth from "@/hooks/use-axios-auth";
+import { deleteCookie } from "cookies-next";
 
 const ProfilePage = () => {
   const [profileData, SetProfileData] = useState<User | null>(null);
   const [newProfileData, SetNewProfileData] = useState<any | null>(null);
+  const axios = useAxiosAuth();
 
   const router = useRouter();
 
   useEffect(() => {
     axios
-      .get(process.env.NEXT_PUBLIC_API_URL + "auth/me", {
-        headers: {
-          "Content-Type": "aplication/json",
-          Authorization: "Beare " + localStorage.getItem("token"),
-        },
-      })
+      .get("auth/me")
       .then(({ data }) => {
         console.log(data);
         SetProfileData(data.user);
       })
       .catch((err) => {
-        if (err.response.status === 401) {
-          localStorage.clear();
+        if (err) {  
           router.push("/login");
         }
       });

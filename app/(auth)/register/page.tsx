@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { FormDataRegister, registrationShema } from "@/types/authTypes";
 import { registerAccount } from "@/lib/auth";
+import axios from "@/lib/axios";
 
 const Register = () => {
   const router = useRouter();
@@ -22,19 +23,21 @@ const Register = () => {
 
   const onSubmit = async (data: FormDataRegister) => {
     setIsLoading(true);
-    const result = await registerAccount(data);
+    axios.post("auth/register", data).then((result) => {
+      console.log(result);
 
-    if ("error" in result) {
-      setIsLoading(false);
-      return alert(result.error);
-    }
+      if ("error" in result) {
+        setIsLoading(false);
+        return alert(result.error);
+      }
+    });
 
     setIsLoading(false);
     router.push("/login");
   };
 
   return (
-    <div className="md:h-screen h-auto py-20 md:p-0 bg-[#880808] flex items-center justify-center">
+    <div className="md:h-screen h-auto py-20 md:p-0 bg-primary flex items-center justify-center">
       <button
         onClick={() => router.back()}
         className="absolute top-3 left-3 flex items-center gap-2 md:border-2 p-3 rounded-lg"
@@ -115,7 +118,9 @@ const Register = () => {
           </div>
 
           <button
-            className={`${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"} bg-[#880808] w-full text-white px-3 py-2 md:py-4 rounded-sm text-2xl font-bold col-span-2`}
+            className={`${
+              isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+            } bg-[#880808] w-full text-white px-3 py-2 md:py-4 rounded-sm text-2xl font-bold col-span-2`}
             type="submit"
             disabled={isLoading}
           >

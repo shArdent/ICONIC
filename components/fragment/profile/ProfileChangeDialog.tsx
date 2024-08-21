@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,21 +12,15 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import useAxiosAuth from "@/hooks/use-axios-auth";
 import axios from "axios";
 
 export function ProfileChangeDialog({ newData }: { newData: any }) {
+  const axios = useAxiosAuth();
   const updateProfile = async () => {
     try {
-      const response = await axios.put(
-        process.env.NEXT_PUBLIC_API_URL + "auth/me", 
-        newData, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Beare " + localStorage.getItem("token"),
-          },
-        }
-      );
-      console.log(response);
+      console.log(newData)
+      axios.put("auth/me", newData).then((result) => console.log(result));
     } catch (error) {
       console.log(error);
     }
@@ -32,7 +28,9 @@ export function ProfileChangeDialog({ newData }: { newData: any }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button type="submit" className="self-end mt-5">Ubah Data</Button>
+        <Button type="submit" className="self-end mt-5">
+          Ubah Data
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

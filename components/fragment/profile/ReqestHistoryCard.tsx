@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { ShareDialog } from "./ShareDialog";
 import { Button } from "@/components/ui/button";
 
-const RequestCard = ({
+const RequestHistoryCard = ({
   id,
   bloodType,
   name,
@@ -41,10 +40,9 @@ const RequestCard = ({
             Rincian
           </Button>
         </Link>
-        <ShareDialog />
       </div>
     </div>
   );
 };
 
-export default RequestCard;
+export default RequestHistoryCard;

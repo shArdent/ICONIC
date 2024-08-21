@@ -13,7 +13,9 @@ const containerStyle = {
 const GooglemapLayout = ({
   rsPos,
   isLoaded,
+  loadError,
 }: {
+  loadError: Error | undefined;
   rsPos: Position | null;
   isLoaded: boolean;
 }) => {
@@ -51,6 +53,13 @@ const GooglemapLayout = ({
       });
     }
   }, [map, rsPos]);
+
+  if (loadError)
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <h1>Map gagal dimuat</h1>
+      </div>
+    );
 
   return (
     <div>

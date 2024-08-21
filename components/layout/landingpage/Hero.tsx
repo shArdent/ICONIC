@@ -1,60 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { NavDrawerUnsign } from "@/components/fragment/navigation/NavDrawerUnsign";
-import { NavDrawerSign } from "@/components/fragment/navigation/NavDrawerSign";
 import { Button } from "@/components/ui/button";
-import { Logout } from "@/lib/auth";
 import { User } from "@/types/authTypes";
 import { useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user") as string));
+    setUser(JSON.parse(getCookie("user") ?? ("{}" as string)));
   }, []);
 
   return (
-    <div className="h-auto md:h-auto bg-[#880808] px-8 md:px-[70px] py-[40px] md:py-[40px] flex flex-col md:items-start items-center gap-7 md:gap-[67px]">
-      <header className="flex justify-between w-full h-[10%]">
-        <h1 className="text-white font-bold text-4xl md:text-[48px]">
-          DonorKan
-        </h1>
-        {user ? (
-          <div>
-            <div className="md:flex hidden gap-[60px] h-[50px] items-center">
-              <Button
-                variant={"secondary"}
-                size={"lg"}
-                className="font-bold text-xl"
-                onClick={() => Logout()}
-              >
-                Logout
-              </Button>
-              <h1 className="text-white text-[24px]">{user.username}</h1>
-            </div>
-            <NavDrawerSign username={user.username} />
-          </div>
-        ) : (
-          <div>
-            <Button
-              asChild
-              variant={"secondary"}
-              size={"lg"}
-              className="font-extrabold text-xl rounded py-6 hidden md:flex"
-            >
-              <Link href={"/login"}>Masuk</Link>
-            </Button>
-            <NavDrawerUnsign />
-          </div>
-        )}
-      </header>
-      <div className="flex flex-col max-w-[775px] justify-center gap-8 py-10 items-center md:items-start text-white md:gap-5">
-        <h1 className="md:text-[96px] text-[2.9em] md:text-left text-center font-bold leading-[100%]">
+    <div
+      className={`h-[calc(100dvh+40px)] md:h-[110dvh] px-8 md:px-[70px] py-[40px] md:py-[40px] flex flex-col md:items-center items-center md:gap-10 bg-[url("/images/landingPage/hero-background.jpg")] bg-cover bg-center backdrop-brightness-50 relative`}
+    >
+      <div className="absolute inset-0 bg-black/50 z-0"></div>
+      <motion.div 
+      initial={{ opacity: 0, y: 100 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true, amount: 0.5 }}
+      className="flex flex-col max-w-[800px] justify-center gap-6 pb-10 items-center md:items-center text-white md:gap-5 z-10">
+        <h1 className="md:text-[96px] text-7xl md:text-center text-center font-bold leading-tight">
           Setetes Darah Sejuta Harapan
         </h1>
-        <p className="tracking-wide text-sm md:text-left text-center">
+        <p className="tracking-wide text-lg md:text-center text-center">
           Bergabunglah dengan kami dalam menyelamatkan nyawa. Donorkan darah
           Anda hari ini dan jadilah pahlawan bagi mereka yang membutuhkan.
         </p>
@@ -67,7 +41,7 @@ const Hero = () => {
             Donorkan Sekarang
           </Button>
         </Link>
-      </div>
+      </motion.div>
     </div>
   );
 };

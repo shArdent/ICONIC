@@ -1,23 +1,14 @@
-"use client"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+"use client";
+import { useRouter } from "next/navigation";
+import { Suspense, useEffect } from "react";
+import Loading from "./loading";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-
-  const router = useRouter()
-
-  useEffect(() => {
-    const isLoggdIn = !!localStorage.getItem("token")
-
-    if (!isLoggdIn) {
-      router.push("/login")
-    }
-  })
   return (
     <div>
-      {children}
+      <Suspense fallback={<Loading />}>{children}</Suspense>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

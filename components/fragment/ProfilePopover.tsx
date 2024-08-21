@@ -7,16 +7,22 @@ const ProfilePopover = ({ username }: { username: string }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={"blackwhite"} className="h-full">
+        <Button className="h-full px-5 py-3 md:block hidden">
           {username}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-36">
         <ul className="flex flex-col">
-          <Link href={`/account/profile`} className="hover:bg-slate-100 p-2 rounded h-auto">
+          <Link
+            href={`/account/profile`}
+            className="hover:bg-slate-100 p-2 rounded h-auto"
+          >
             <li>Profil</li>
           </Link>
-          <button onClick={() => Logout()} className="text-left hover:bg-slate-100 p-2 rounded h-auto">
+          <button
+            onClick={() => Logout()}
+            className="text-left hover:bg-slate-100 p-2 rounded h-auto"
+          >
             <li>Logout</li>
           </button>
         </ul>

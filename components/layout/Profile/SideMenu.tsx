@@ -2,15 +2,17 @@
 
 import AvatarProfile from "@/components/fragment/profile/Avatar";
 import { User } from "@/types/authTypes";
+import { getCookie } from "cookies-next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 const SideMenu = () => {
   const pathname = usePathname().split("/")[2];
   const [userData, setUserData] = useState<User | null>(null);
+
   useEffect(() => {
-    const fromLocal = localStorage.getItem("user");
-    setUserData(fromLocal ? JSON.parse(fromLocal) : null);
+    setUserData(JSON.parse(getCookie("user") ?? "{}" as string));
+    
   }, []);
 
   return (
@@ -39,7 +41,7 @@ const SideMenu = () => {
             } text-gray-500 text-md hover:text-red-400 `}
             href={"/account/history"}
           >
-            <li>History Donor</li>
+            <li>Riwayat Donor</li>
           </Link>
         </ul>
       </div>

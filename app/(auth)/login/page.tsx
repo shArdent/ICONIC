@@ -3,34 +3,39 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import axios from "@/lib/axios";
 import { useState } from "react";
-import { setCookie } from "@/lib/auth";
-import { cookies } from "next/headers";
-import axios from "axios";
+import { setCookie } from "cookies-next";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+
   const handleLogin = async (formdata: FormData) => {
     setIsLoading(true);
     const email = formdata.get("email") as string;
     const password = formdata.get("password") as string;
 
-    // axios.defaults.withCredentials = true;
-
     axios
-      .post(process.env.NEXT_PUBLIC_API_URL + "auth/login", {
+      .post("auth/login", {
         email,
         password,
       })
       .then(({ data }) => {
         console.log(data);
-        localStorage.setItem("token", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        setCookie("token", data.accessToken, {
+          expires: new Date(new Date().setDate(new Date().getDate() + 1)),
+        });
+        setCookie("refreshToken", data.refreshToken, {
+          expires: new Date(new Date().setDate(new Date().getDate() + 1)),
+        });
+        setCookie("user", JSON.stringify(data.user), {
+          expires: new Date(new Date().setDate(new Date().getDate() + 1)),
+        });
         router.push("/");
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
