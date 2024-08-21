@@ -8,14 +8,27 @@ import { User } from "@/types/authTypes";
 import ProfilePopover from "../ProfilePopover";
 import { getCookie } from "cookies-next";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { NavDrawerUnsign } from "./NavDrawerUnsign";
 
 const Navbar = () => {
   const [user, setUser] = useState<User | null>(null);
-  const disable = ["/", "/login", "/register"];
+  const [isHome, setIsHome] = useState<boolean>(true);
+  const disable = ["/login", "/register"];
   const pathname = usePathname();
 
   useEffect(() => {
-    setUser(JSON.parse(getCookie("user") ?? "{}") as User);
+    setIsHome(() => {
+      return pathname === "/" ? true : false;
+    });
+
+    setUser(() => {
+      const userToBeParsed = getCookie("user");
+      if (userToBeParsed) {
+        return JSON.parse(userToBeParsed);
+      }
+      return null;
+    });
   }, [pathname]);
 
   return (
@@ -25,15 +38,19 @@ const Navbar = () => {
       transition={{ duration: 0.7 }}
       viewport={{ once: true }}
       className={
-        "sticky top-0 left-0 w-full flex justify-between bg-white z-50 items-center px-5 md:px-10 py-[20px]"
+        disable.includes(pathname)
+          ? "hidden"
+          : `sticky top-0 left-0 w-full flex justify-between ${
+              isHome ? "bg-white" : "bg-primary"
+            } z-50 items-center px-5 md:px-10 py-[20px]`
       }
     >
       <Link href={"/"}>
-        <h1 className="text-primary font-extrabold text-4xl md:text-[48px]">
+        <h1 className={`${isHome ? "text-primary" : "text-white"}  font-extrabold text-4xl md:text-[48px]`}>
           DonorKan
         </h1>
       </Link>
-      <ul className="hidden gap-10 text-medium font-medium text-black md:flex">
+      <ul className={`${isHome ? "text-black" : "text-white" } hidden gap-10 text-medium font-medium md:flex`}>
         <li className="hover:scale-110 transition-all">
           <Link href={"/request"}>Permintaan</Link>
         </li>
@@ -41,8 +58,19 @@ const Navbar = () => {
           <Link href={"/request"}>Daftar Donor</Link>
         </li>
       </ul>
-      <ProfilePopover username={user?.username as string} />
-      <NavDrawerSign username={user?.username as string} />
+      {user ? (
+        <div>
+          <NavDrawerSign username={user?.username as string} isHome={isHome}/>
+          <ProfilePopover username={user?.username as string} isHome={isHome}/>
+        </div>
+      ) : (
+        <div>
+          <NavDrawerUnsign />
+          <Link href={"/login"}>
+            <Button className={"hidden md:block"}>Masuk</Button>
+          </Link>
+        </div>
+      )}
     </motion.div>
   );
 };

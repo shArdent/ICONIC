@@ -3,11 +3,21 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Logout } from "@/lib/auth";
 
-const ProfilePopover = ({ username }: { username: string }) => {
+const ProfilePopover = ({
+  username,
+  isHome,
+}: {
+  username: string;
+  isHome: boolean;
+}) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="h-full px-5 py-3 md:block hidden">
+        <Button
+          className={`h-full px-5 py-3 md:block hidden font-bold ${
+            isHome ? "bg-primary text-white" : "text-primary bg-white"
+          }`}
+        >
           {username}
         </Button>
       </PopoverTrigger>

@@ -10,7 +10,7 @@ const Whatis = () => {
       className="w-[85%] rounded-lg mx-auto relative -top-32 h-auto bg-white shadow py-16 px-16 flex flex-col items-center justify-center gap-10 bg-opacity-90 backdrop-blur-sm drop-shadow-lg"
     >
       <h1 className="text-5xl font-bold">Apa itu DonorKan?</h1>
-      <p className="text-center text-lg">
+      <p className="md:text-center text-lg">
         <span className="text-primary font-extrabold">DonorKan</span> adalah
         aplikasi manajemen donor darah yang dirancang untuk memudahkan proses
         donor dan permintaan darah. Aplikasi ini menghubungkan donor darah

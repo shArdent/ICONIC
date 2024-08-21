@@ -4,19 +4,19 @@ import { Drawer } from "vaul";
 import Link from "next/link";
 import { Logout } from "@/lib/auth";
 
-export function NavDrawerSign({ username }: { username: string | null}) {
+export function NavDrawerSign({ username, isHome }: { username: string | null; isHome : boolean}) {
 
   return (
     <Drawer.Root direction="right">
       <Drawer.Trigger asChild>
-        <button className=" flex justify-center items-center md:hidden">
+        <button className="flex justify-center items-center md:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-8 h-8 text-primary"
+            className={`w-8 h-8 ${isHome ? "text-primary" : "text-white"}`}
           >
             <path
               strokeLinecap="round"

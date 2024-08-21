@@ -5,7 +5,6 @@ import useAuthStore from "../../../store/AuthStore";
 import Link from "next/link";
 
 export function NavDrawerUnsign() {
-  const user = useAuthStore((state) => state.user);
   return (
     <Drawer.Root direction="right">
       <Drawer.Trigger asChild>
@@ -16,7 +15,7 @@ export function NavDrawerUnsign() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-8 h-8 text-white"
+            className="w-8 h-8 text-primary"
           >
             <path
               strokeLinecap="round"
