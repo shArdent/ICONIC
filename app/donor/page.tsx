@@ -2,7 +2,6 @@
 
 import useAxiosAuth from "@/hooks/use-axios-auth";
 import { useLoadGoogleMaps } from "@/hooks/use-load-google-maps";
-import useAxiosAuth from "@/hooks/use-axios-auth";
 import { useEffect, useState } from "react";
 import { GoogleMap } from "@react-google-maps/api";
 import GooglemapLayout from "@/components/layout/GooglemapLayout";
