@@ -1,18 +1,19 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { FormDataRegister, registrationShema } from "@/types/authTypes";
-import { registerAccount } from "@/lib/auth";
 import axios from "@/lib/axios";
 
 const Register = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [seePassword, setSeePassword] = useState<boolean>(false);
+  const [seeConfirmPassword, setSeeConfirmPassword] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -23,21 +24,24 @@ const Register = () => {
 
   const onSubmit = async (data: FormDataRegister) => {
     setIsLoading(true);
-    axios.post("auth/register", data).then((result) => {
-      console.log(result);
-
-      if ("error" in result) {
+    axios
+      .post("auth/register", data)
+      .then((result) => {
+        console.log(result);
+      })
+      .then(() => {
         setIsLoading(false);
-        return alert(result.error);
-      }
-    });
-
-    setIsLoading(false);
-    router.push("/login");
+        router.push("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+        alert(err.message);
+      });
   };
 
   return (
-    <div className="md:h-screen h-auto py-20 md:p-0 bg-primary flex items-center justify-center">
+    <div className="h-screen py-20 md:p-0 bg-primary flex items-center justify-center">
       <button
         onClick={() => router.back()}
         className="absolute top-3 left-3 flex items-center gap-2 md:border-2 p-3 rounded-lg"
@@ -77,30 +81,47 @@ const Register = () => {
               <p className="text-red-500">{errors.email.message as string}</p>
             )}
           </label>
-          <label htmlFor="password" className="flex flex-col gap-2">
+          <label htmlFor="password" className="flex flex-col gap-2 relative">
             <p className="flex justify-between items-end">Password</p>
             <input
-              className="border-2 border-[#880808] p-3 rounded-lg focus:border-[#ce3e3e] focus:outline-none focus:ring-0 transition-all"
-              type="password"
+              className="border-2 border-primary p-3 rounded-lg focus:border-[#ce3e3e] focus:outline-none focus:ring-0 transition-all"
+              type={seePassword ? "text" : "password"}
               placeholder="**********"
               {...register("password")}
             />
+            <button
+              type="button"
+              onClick={() => setSeePassword((prev) => !prev)}
+              className="absolute top-14 right-3 -translate-y-1/2"
+            >
+              {seePassword ? <EyeOff /> : <Eye />}
+            </button>
             {errors.password && (
               <p className="text-red-500">
                 {errors.password.message as string}
               </p>
             )}
           </label>
-          <label htmlFor="confirm-password" className="flex flex-col gap-2">
+          <label
+            htmlFor="confirm-password"
+            className="flex flex-col gap-2 relative"
+          >
             <p className="flex justify-between items-end">
               Konfirmasi Password
             </p>
             <input
               className="border-2 border-[#880808] p-3 rounded-lg focus:border-[#ce3e3e] focus:outline-none focus:ring-0 transition-all"
-              type="password"
+              type={seeConfirmPassword ? "text" : "password"}
               placeholder="**********"
               {...register("confirmPassword")}
             />
+            <button
+              type="button"
+              onClick={() => setSeeConfirmPassword((prev) => !prev)}
+              className="absolute top-14 right-3 -translate-y-1/2"
+            >
+              {seeConfirmPassword ? <EyeOff /> : <Eye />}
+            </button>
             {errors.confirmPassword && (
               <p className="text-red-500">
                 {errors.confirmPassword.message as string}
@@ -124,7 +145,7 @@ const Register = () => {
             type="submit"
             disabled={isLoading}
           >
-            Daftar
+            {isLoading ? "Loading..." : "Daftar"}
           </button>
         </form>
       </div>

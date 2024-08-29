@@ -26,8 +26,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const bloodtypeMatcher: { [key: string]: string[] } = {
-  A: ["A", "AB"],
-  B: ["B", "AB"],
+  A: ["A", "AB", "O"],
+  B: ["B", "AB", "O"],
   O: ["O"],
   AB: ["A", "B", "AB", "O"],
 };
@@ -56,11 +56,17 @@ export function DonorDialog({
       );
       return;
     }
-    console.log(values);
 
-    // axios.post(`donate/${id}`, values).then(({ data }) => {
-    //   router.push(`/donor/${data.id}`);
-    // });
+    axios
+      .post(`donate/${id}`, values)
+      .then(({ result }) => {
+        router.push(`donor/${result.data.id}`);
+      })
+      .catch((err) => {
+        if (err.request.status == 401) {
+          router.push("/login");
+        }
+      });
 
     setBloodtypeError(null);
   };
@@ -116,11 +122,11 @@ export function DonorDialog({
               render={({ field }) => (
                 <FormItem className="">
                   <FormLabel className="text-[1em]">
-                    Alamat Rumah Penerima
+                    Alamat Rumah Pendonor
                   </FormLabel>
                   <Input
                     className="border-none shadow bg-[#f0f0f0] w-full"
-                    placeholder="Alamat penerima donor"
+                    placeholder="Alamat Pendonor"
                     {...field}
                   />
                   <FormMessage />

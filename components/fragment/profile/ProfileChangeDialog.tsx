@@ -19,7 +19,6 @@ export function ProfileChangeDialog({ newData }: { newData: any }) {
   const axios = useAxiosAuth();
   const updateProfile = async () => {
     try {
-      console.log(newData)
       axios.put("auth/me", newData).then((result) => console.log(result));
     } catch (error) {
       console.log(error);

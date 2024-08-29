@@ -5,8 +5,10 @@ import { DirectionsRenderer, GoogleMap } from "@react-google-maps/api";
 import { Position } from "@/types/requestTypes";
 
 const containerStyle = {
-  width: "400px",
+  width : "100%",
+  minWidth: "400px",
   height: "100%",
+  minHeight: "300px",
   borderRadius: "10px",
 };
 

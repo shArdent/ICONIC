@@ -1,12 +1,13 @@
 "use client";
 
-import { PaginationBlock } from "@/components/fragment/PaginationBlock";
 import RequestCard from "@/components/fragment/request/RequestCard";
 import { Button } from "@/components/ui/button";
 import { Position, Request } from "@/types/requestTypes";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useAxiosAuth from "@/hooks/use-axios-auth";
+import Loading from "../loading";
+import { useRouter } from "next/navigation";
 
 const RequestsPage = () => {
   const [requests, setRequests] = useState<Request[] | null>(null);
@@ -16,23 +17,22 @@ const RequestsPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const axiosAuth = useAxiosAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setCurrentPossition({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      });
-    });
-
     setIsLoading(true);
     axiosAuth
-      .get('requests')
+      .get("requests")
       .then(({ data }) => {
         setRequests(data.data);
+        console.log(data.data)
       })
       .catch((err) => {
-        setError("Gagal Mendapatkan Data dari server");
+        console.log(err)
+        setError(err.message);
+        if (err.request.status == 401) {
+          router.push("/login");
+        }
       })
       .finally(() => {
         setIsLoading(false);
@@ -40,16 +40,18 @@ const RequestsPage = () => {
   }, [currentPosition?.lat, currentPosition?.lng]);
 
   return (
-    <div className="px-3 py-10 md:py-5 md:px-10">
-      <div className="pb-1 mb-5 w-full border-b-2 flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Permintaan Darah</h1>
+    <div className="px-3 md:px-10">
+      <div className="pb-1 mb-5 w-full border-b-2 flex justify-between items-end">
+        <h1 className="text-3xl font-bold ">Permintaan Darah</h1>
         <Link href="/request/new">
-          <Button className="rounded-sm text-lg">Buat Permintaan</Button>
+          <Button className="rounded-sm py-1 px-4 bg-primary my-1">
+            Buat Permintaan
+          </Button>
         </Link>
         {/* <button className="text-nowrap px-4 py-3 rounded bg-primary font-bold text-white">Buat Permintaan</button> */}
       </div>
       {isLoading ? (
-        <h1>Loading..</h1>
+        <Loading />
       ) : (
         <div>
           {requests ? (
@@ -63,6 +65,7 @@ const RequestsPage = () => {
                     hospital={request.hospital_name}
                     bloodType={request.blood_type}
                     time={request.request_at.toString()}
+                    status={request.status}
                   />
                 ))}
               </div>

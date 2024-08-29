@@ -1,4 +1,3 @@
-import { Value } from "@radix-ui/react-select"
 import { z, ZodType } from "zod"
 
 export type Request = {
@@ -7,8 +6,9 @@ export type Request = {
     name: string,
     blood_type: string,
     quantity: number,
+    status : string,
     hospital_name: string,
-    request_at: Date,
+    request_at: string,
     lat: number,
     long: number
 }

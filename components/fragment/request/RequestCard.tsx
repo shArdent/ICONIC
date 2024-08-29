@@ -8,12 +8,14 @@ const RequestCard = ({
   name,
   hospital,
   time,
+  status,
 }: {
   id: number;
   bloodType: string;
   name: string;
   hospital: string;
   time: string;
+  status : string;
 }) => {
   const displayDate = time.split("T")[0];
   const displayTime = time.split("T")[1];
@@ -26,10 +28,10 @@ const RequestCard = ({
         </div>
 
         <div className="flex flex-col justify-around text-sm ">
-          <h1 className="font-bold text-base">{name}</h1>
+          <h1 className="font-bold text-base text-nowrap">{name} {status === "fulfilled" ? "(Terpenuhi)" : ""}</h1>
           <p>{hospital}</p>
           <p>
-            {displayDate.split("-").reverse().join("-")} |
+            {displayDate.split("-").reverse().join("-")} |{" "}
             {displayTime.slice(0, 5)}
           </p>
         </div>
@@ -41,7 +43,7 @@ const RequestCard = ({
             Rincian
           </Button>
         </Link>
-        <ShareDialog />
+        <ShareDialog id={id}/>
       </div>
     </div>
   );

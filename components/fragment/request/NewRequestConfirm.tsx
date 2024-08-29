@@ -12,16 +12,19 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import useAxiosAuth from "@/hooks/use-axios-auth";
 import { NewRequest } from "@/types/requestTypes";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const NewRequestConfirm = ({
   newRequestData,
+  setError,
 }: {
   newRequestData: NewRequest | null;
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
+  const axios = useAxiosAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const postNewRequest = () => {
@@ -35,39 +38,29 @@ const NewRequestConfirm = ({
       longitude: newRequestData?.rumahSakit.koordinat.lng,
     };
 
-    console.log(newRequest);
-
-    try {
-      setIsLoading(true);
-      axios
-        .post(
-          "https://donate-blood-api-development.up.railway.app/api/v1/requests",
-          newRequest,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          setIsLoading(false);
-          router.push("/request");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    setIsLoading(true);
+    axios
+      .post("requests", newRequest)
+      .then((res) => {
+        console.log(res);
+        setIsLoading(false);
+        router.push("/request");
+      })
+      .catch((err) => {
+        console.log(err.request.status)
+        if (err.request.status === 401) {
+          router.push("/login");
+        };
+        setError("Gagal menambahkan request. Coba kembali nanti");
+        setIsLoading(false);
+      });
   };
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          className={isLoading ? "opacity-60" : ""}
+          className={`${isLoading && "animate-pulse "} relative w-36 rigth-0 col-end-3 self-end justify-self-end`}
           disabled={isLoading}
           type="submit"
         >

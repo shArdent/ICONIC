@@ -46,31 +46,50 @@ const Navbar = () => {
       }
     >
       <Link href={"/"}>
-        <h1 className={`${isHome ? "text-primary" : "text-white"}  font-extrabold text-4xl md:text-[48px]`}>
+        <h1
+          className={`${
+            isHome ? "text-primary" : "text-white"
+          }  font-extrabold text-4xl md:text-[48px]`}
+        >
           DonorKan
         </h1>
       </Link>
-      <ul className={`${isHome ? "text-black" : "text-white" } hidden gap-10 text-medium font-medium md:flex`}>
-        <li className="hover:scale-110 transition-all">
-          <Link href={"/request"}>Permintaan</Link>
-        </li>
-        <li className="hover:scale-110 transition-all">
-          <Link href={"/request"}>Daftar Donor</Link>
-        </li>
-      </ul>
-      {user ? (
-        <div>
-          <NavDrawerSign username={user?.username as string} isHome={isHome}/>
-          <ProfilePopover username={user?.username as string} isHome={isHome}/>
-        </div>
-      ) : (
-        <div>
-          <NavDrawerUnsign />
-          <Link href={"/login"}>
-            <Button className={"hidden md:block"}>Masuk</Button>
-          </Link>
-        </div>
-      )}
+      <div className="flex items-center gap-10">
+        <ul
+          className={`${
+            isHome ? "text-black" : "text-white"
+          } hidden gap-10 text-medium font-medium md:flex`}
+        >
+          <li className="hover:scale-110 transition-all">
+            <Link href={"/request"}>Permintaan</Link>
+          </li>
+        </ul>
+        {user ? (
+          <div>
+            <NavDrawerSign
+              username={user?.username as string}
+              isHome={isHome}
+            />
+            <ProfilePopover
+              username={user?.username as string}
+              isHome={isHome}
+            />
+          </div>
+        ) : (
+          <div>
+            <NavDrawerUnsign isHome={isHome} />
+            <Link href={"/login"}>
+              <Button
+                className={`hidden md:block font-bold ${
+                  isHome ? "text-white" : "bg-white text-primary"
+                }`}
+              >
+                Masuk
+              </Button>
+            </Link>
+          </div>
+        )}
+      </div>
     </motion.div>
   );
 };

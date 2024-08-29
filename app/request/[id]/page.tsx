@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/app/loading";
 import { DonorDialog } from "@/components/fragment/request/DonorDialog";
 import IdentityDetail from "@/components/fragment/request/IdentityDetail";
 import GooglemapLayout from "@/components/layout/GooglemapLayout";
@@ -8,7 +9,6 @@ import useAxiosAuth from "@/hooks/use-axios-auth";
 import { useLoadGoogleMaps } from "@/hooks/use-load-google-maps";
 import { getRs } from "@/lib/fetch-map";
 import { Position } from "@/types/requestTypes";
-import { getCookie } from "cookies-next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -29,11 +29,15 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [detailData, setDetailData] = useState<DetailRecipient | null>(null);
   const [rumahSakitPos, setRumahSakitPos] = useState<Position | null>(null);
   const { isLoaded, loadError } = useLoadGoogleMaps();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const axios = useAxiosAuth();
 
   useEffect(() => {
     axios.get(`requests/${params.id}`).then(({ data }) => {
       setDetailData(data.data);
+      setIsLoading(false);
+    }).catch((err) => {
+      console.log(err);
     });
   }, []);
 
@@ -48,8 +52,12 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
   }, [detailData, isLoaded]);
 
+  if (isLoading && isLoaded) {
+    return <Loading />;
+  }
+
   return (
-    <div className="px-3 py-10 md:py-5 md:px-10">
+    <div className="px-3 py-5 md:py-5 md:px-10">
       <div className="w-full border-b-2 pb-2 ">
         <h1 className="text-3xl font-bold">Detail Permintaan</h1>
       </div>
@@ -87,11 +95,11 @@ const Page = ({ params }: { params: { id: string } }) => {
                 label="Rumah Sakit"
               />
               <IdentityDetail
-                value={detailData?.quantity as number}
+                value={detailData?.quantity ? detailData?.quantity : 0}
                 label="Kantung Darah Dibutuhkan"
               />
               <IdentityDetail
-                value={detailData?.jumlah_terpenuhi as number}
+                value={detailData?.jumlah_terpenuhi ? detailData?.jumlah_terpenuhi : 0}
                 label="Kantung Darah Terpenuhi"
               />
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "@/lib/axios";
@@ -10,8 +10,8 @@ import { setCookie } from "cookies-next";
 const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [seePassword, setSeePassword] = useState<boolean>(false);
   const router = useRouter();
-
 
   const handleLogin = async (formdata: FormData) => {
     setIsLoading(true);
@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-[100dvh] bg-[#880808] flex items-center justify-center">
+    <div className="h-screen bg-primary flex items-center justify-center">
       <button
         onClick={() => router.back()}
         className="absolute top-3 left-3 flex  items-center gap-2 md:border-2 p-3 rounded-lg"
@@ -69,7 +69,7 @@ const Login = () => {
               id="email"
             />
           </label>
-          <label htmlFor="password" className="flex flex-col gap-2">
+          <label htmlFor="password" className="flex flex-col gap-2 relative">
             <p className="flex justify-between items-end">
               Password
               <Link
@@ -80,12 +80,19 @@ const Login = () => {
               </Link>
             </p>
             <input
-              className="border-2 border-[#880808] p-3 rounded-lg focus:border-[#ce3e3e] focus:outline-none focus:ring-0 transition-all"
-              type="password"
+              className="border-2 border-primary p-3 rounded-lg focus:border-[#ce3e3e] focus:outline-none focus:ring-0 transition-all"
+              type={seePassword ? "text" : "password"}
               placeholder="**********"
               name="password"
               id="password"
             />
+            <button
+              type="button"
+              onClick={() => setSeePassword(!seePassword)}
+              className="absolute top-14 right-3 -translate-y-1/2"
+            >
+              {seePassword ? <EyeOff /> : <Eye />}
+            </button>
           </label>
 
           <div className="flex text-sm justify-between mb-7">
@@ -98,13 +105,13 @@ const Login = () => {
           </div>
 
           <button
-            className={`bg-[#880808] ${
+            className={`bg-primary ${
               isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
             } w-full text-white px-3 py-2 rounded-sm text-xl font-bold`}
             type="submit"
             disabled={isLoading}
           >
-            Masuk
+            {isLoading ? "Loading..." : "Masuk"}
           </button>
         </form>
       </div>

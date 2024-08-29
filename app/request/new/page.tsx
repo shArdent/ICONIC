@@ -19,6 +19,7 @@ import { z } from "zod";
 
 const NewRequestPage = () => {
   const [newRequestData, setNewRequestData] = useState<NewRequest | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const form = useForm<z.infer<typeof NewRequestSchema>>({
     resolver: zodResolver(NewRequestSchema),
   });
@@ -28,7 +29,7 @@ const NewRequestPage = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center bg-slate-100 p-5 md:py-10">
+    <div className="h-screen flex flex-col items-center bg-slate-100 p-5 md:py-7">
       <div className="w-full md:w-[75%]">
         <h1 className="text-left text-3xl font-medium mb-5 md:text-4xl ">
           Buat Permintaan Darah
@@ -75,7 +76,7 @@ const NewRequestPage = () => {
                 </FormLabel>
                 <Input
                   className="border-none shadow bg-[#f0f0f0] w-full"
-                  placeholder="Kuantitas darah yang diperlukan"
+                  placeholder="contoh : 2"
                   type="number"
                   {...field}
                 />
@@ -111,7 +112,11 @@ const NewRequestPage = () => {
               </FormItem>
             )}
           />
-          <NewRequestConfirm newRequestData={newRequestData}/>
+          <NewRequestConfirm
+            newRequestData={newRequestData}
+            setError={setError}
+          />
+          {error && <p className="text-destructive">{error}</p>}
         </form>
       </Form>
     </div>
