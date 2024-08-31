@@ -70,15 +70,7 @@ const Login = () => {
             />
           </label>
           <label htmlFor="password" className="flex flex-col gap-2 relative">
-            <p className="flex justify-between items-end">
-              Password
-              <Link
-                href="/forgot"
-                className="text-blue-700 hover:underline inline-block text-sm"
-              >
-                Lupa Password
-              </Link>
-            </p>
+            <p className="flex justify-between items-end">Password</p>
             <input
               className="border-2 border-primary p-3 rounded-lg focus:border-[#ce3e3e] focus:outline-none focus:ring-0 transition-all"
               type={seePassword ? "text" : "password"}

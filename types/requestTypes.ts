@@ -69,21 +69,21 @@ export const NewRequestSchema: ZodType<NewRequest> = z.object({
 });
 
 export type Donor = {
-    donor_name: string,
-    blood_type: string,
-    donor_Address: string
+    donorName: string,
+    bloodType: string,
+    donorAddress: string
 }
 
 export const DonorSchema: ZodType<Donor> = z.object({
-    donor_name: z.string({
+    donorName: z.string({
         required_error: "Nama harus diisi",
     }).refine((value) => {
         return value.length > 3 && value.trim() !== ""
     }, { message: "Input anda tidak valid" }),
-    blood_type: z.string({
+    bloodType: z.string({
         required_error: "Golongan Darah harus diisi",
     }),
-    donor_Address: z.string({
+    donorAddress: z.string({
         required_error: "Alamat harus diisi sesuai ktp",
     }).refine((value: string) => {
         return value.trim() !== "" && value.length > 1

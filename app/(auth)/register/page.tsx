@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { FormDataRegister, registrationShema } from "@/types/authTypes";
 import axios from "@/lib/axios";
+import { toast } from "sonner";
 
 const Register = () => {
   const router = useRouter();
@@ -28,15 +29,27 @@ const Register = () => {
       .post("auth/register", data)
       .then((result) => {
         console.log(result);
-      })
-      .then(() => {
         setIsLoading(false);
-        router.push("/login");
+        if (result.status === 201) {
+          toast("Akun berhasil dibuat", {
+            description: "Silahkan cek email anda untuk melakukan verifikasi",
+            action: {
+              label: "Login",
+              onClick: () => router.push("/login"),
+            },
+          });
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data);
         setIsLoading(false);
-        alert(err.message);
+        toast("Akun gagal dibuat", {
+          description: "Email yang anda gunakan sudah terdaftar",
+          action: {
+            label: "X",
+            onClick: () => {},
+          }
+        });
       });
   };
 

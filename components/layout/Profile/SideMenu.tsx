@@ -17,9 +17,8 @@ const SideMenu = () => {
 
   return (
     <div className="flex md:flex-col py-5 gap-5 w-full md:w-[400px] md:max-w-auto">
-      <div className="flex items-center gap-3 ">
-        <AvatarProfile />
-        <h1 className="font-bold text-md text-wrap">{userData?.username}</h1>
+      <div className="border-b-4 w-full">
+        <h1 className="font-bold text-3xl text-wrap">{userData?.username}</h1>
       </div>
       <div>
         <ul className="flex md:flex-col gap-2 md:gap-4">

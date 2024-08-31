@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion"
+import Link from "next/link";
 
 const Final = () => {
   return (
@@ -18,9 +19,9 @@ const Final = () => {
         Anda donorkan mencapai mereka yang paling membutuhkannya dengan cepat
         dan tepat.
       </p>
-      <Button className="py-8 px-10 rounded-sm font-bold w-auto text-[24px]">
+      <Link href={'/request'} className="py-3 bg-primary text-white px-10 rounded-sm font-bold w-auto text-[24px]">
         Donorkan Sekarang
-      </Button>
+      </Link>
     </motion.div>
   );
 };

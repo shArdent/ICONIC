@@ -3,21 +3,26 @@
 import HistoryCard from "@/components/fragment/HistoryCard";
 import useAxiosAuth from "@/hooks/use-axios-auth";
 import { Request } from "@/types/requestTypes";
-import { request } from "http";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const HistoryPage = () => {
   const [historyData, setHistoryData] = useState<Request[] | null>(null);
   const axios = useAxiosAuth();
+  const router = useRouter();
 
   useEffect(() => {
     axios
       .get("history")
-      .then((res) => {
-        console.log(res);
+      .then(({ data }) => {
+        console.log(data)
+        setHistoryData(data.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data);
+        if (err.request.status === 401) {
+          router.push("/login");
+        }
       });
   });
   return (

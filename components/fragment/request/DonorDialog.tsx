@@ -42,6 +42,7 @@ export function DonorDialog({
   isDisabled: boolean;
 }) {
   const [bloodtypeError, setBloodtypeError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const axios = useAxiosAuth();
   const router = useRouter();
 
@@ -50,7 +51,8 @@ export function DonorDialog({
   });
 
   const onSubmit = (values: z.infer<typeof DonorSchema>) => {
-    if (!bloodtypeMatcher[bloodType].includes(values.blood_type)) {
+    setIsLoading(true);
+    if (!bloodtypeMatcher[bloodType].includes(values.bloodType)) {
       setBloodtypeError(
         "Jenis darah tidak sesuai dengan golongan darah yang dipilih"
       );
@@ -59,8 +61,9 @@ export function DonorDialog({
 
     axios
       .post(`donate/${id}`, values)
-      .then(({ result }) => {
-        router.push(`donor/${result.data.id}`);
+      .then(({ data }) => {
+        setIsLoading(false);
+        router.push(`/donor/${data.data[0].donor_id}`);
       })
       .catch((err) => {
         if (err.request.status == 401) {
@@ -87,7 +90,7 @@ export function DonorDialog({
           >
             <FormField
               control={form.control}
-              name="donor_name"
+              name="donorName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nama Pendonor</FormLabel>
@@ -102,7 +105,7 @@ export function DonorDialog({
             />
             <FormField
               control={form.control}
-              name="blood_type"
+              name="bloodType"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[1em]">Golongan Darah</FormLabel>
@@ -118,7 +121,7 @@ export function DonorDialog({
             />
             <FormField
               control={form.control}
-              name="donor_Address"
+              name="donorAddress"
               render={({ field }) => (
                 <FormItem className="">
                   <FormLabel className="text-[1em]">
@@ -137,7 +140,13 @@ export function DonorDialog({
               <AlertDialogCancel className="h-10 px-6 py-2">
                 Cancel
               </AlertDialogCancel>
-              <Button type="submit">Donor</Button>
+              <Button
+                className={`${isLoading ? "opacity-80" : ""}`}
+                disabled={isLoading}
+                type="submit"
+              >
+                {isLoading ? "Loading..." : "Donor"}
+              </Button>
             </div>
           </form>
         </Form>

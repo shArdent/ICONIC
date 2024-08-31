@@ -10,6 +10,7 @@ import { useLoadGoogleMaps } from "@/hooks/use-load-google-maps";
 import { getRs } from "@/lib/fetch-map";
 import { Position } from "@/types/requestTypes";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type DetailRecipient = {
@@ -31,14 +32,20 @@ const Page = ({ params }: { params: { id: string } }) => {
   const { isLoaded, loadError } = useLoadGoogleMaps();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const axios = useAxiosAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    axios.get(`requests/${params.id}`).then(({ data }) => {
-      setDetailData(data.data);
-      setIsLoading(false);
-    }).catch((err) => {
-      console.log(err);
-    });
+    axios
+      .get(`requests/${params.id}`)
+      .then(({ data }) => {
+        setDetailData(data.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          router.push("/login");
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -99,7 +106,11 @@ const Page = ({ params }: { params: { id: string } }) => {
                 label="Kantung Darah Dibutuhkan"
               />
               <IdentityDetail
-                value={detailData?.jumlah_terpenuhi ? detailData?.jumlah_terpenuhi : 0}
+                value={
+                  detailData?.jumlah_terpenuhi
+                    ? detailData?.jumlah_terpenuhi
+                    : 0
+                }
                 label="Kantung Darah Terpenuhi"
               />
             </div>

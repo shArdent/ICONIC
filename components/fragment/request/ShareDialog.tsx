@@ -19,8 +19,10 @@ export function ShareDialog({ id }: { id: number }) {
   const [isError, setIsError] = useState<boolean>(false);
 
   const handleCopy = async () => {
+    const text = `Mari berbagi kebaikan! Klik di sini untuk melihat permintaan donor darah dan bantu mereka yang sedang membutuhkan. \n www.donorkan.com/request/${id}`;
     try {
-      await navigator.clipboard.writeText(`www.donorkan.com/request/${id}`);
+      await navigator.clipboard.writeText(text);
+      
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
     } catch (error) {

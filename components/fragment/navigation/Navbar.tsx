@@ -10,8 +10,13 @@ import { getCookie } from "cookies-next";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { NavDrawerUnsign } from "./NavDrawerUnsign";
+import logoRed from "@/public/images/logo-red.png";
+import logoWhite from "@/public/images/logo-white.png";
+import Image from "next/image";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const Navbar = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [user, setUser] = useState<User | null>(null);
   const [isHome, setIsHome] = useState<boolean>(true);
   const disable = ["/login", "/register"];
@@ -42,17 +47,11 @@ const Navbar = () => {
           ? "hidden"
           : `sticky top-0 left-0 w-full flex justify-between ${
               isHome ? "bg-white" : "bg-primary"
-            } z-50 items-center px-5 md:px-10 py-[20px]`
+            } z-50 items-center px-3 md:px-10 border-b-2 py-1`
       }
     >
       <Link href={"/"}>
-        <h1
-          className={`${
-            isHome ? "text-primary" : "text-white"
-          }  font-extrabold text-4xl md:text-[48px]`}
-        >
-          DonorKan
-        </h1>
+        <Image src={isHome ? logoRed : logoWhite} alt="DonorKan" height={70}/>
       </Link>
       <div className="flex items-center gap-10">
         <ul

@@ -16,7 +16,7 @@ const Hero = () => {
 
   return (
     <div
-      className={`h-[calc(100dvh+40px)] md:h-[110dvh] px-8 md:px-[70px] py-[40px] md:py-[40px] flex flex-col md:items-center items-center md:gap-10 bg-[url("/images/landingPage/hero-background.jpg")] bg-cover bg-center backdrop-brightness-50 relative object-cover`}
+      className={`h-[calc(100vh+80px)] md:h-[110dvh] px-8 md:px-[70px] py-[40px] md:py-[40px] flex flex-col md:items-center items-center md:gap-10 bg-[url("/images/landingPage/hero-background.jpg")] bg-cover bg-center backdrop-brightness-50 relative object-cover`}
     >
       <div className="absolute inset-0 bg-black/50 z-0"></div>
       <motion.div

@@ -38,7 +38,7 @@ const NewRequestPage = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 w-full gap-8 bg-white px-7 py-5 rounded-lg shadow md:w-[75%]"
+          className="flex flex-col md:grid md:grid-cols-2 w-full gap-8 bg-white px-7 py-5 rounded-lg shadow md:w-[75%]"
         >
           <FormField
             control={form.control}
