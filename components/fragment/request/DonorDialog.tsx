@@ -51,7 +51,6 @@ export function DonorDialog({
   });
 
   const onSubmit = (values: z.infer<typeof DonorSchema>) => {
-    setIsLoading(true);
     if (!bloodtypeMatcher[bloodType].includes(values.bloodType)) {
       setBloodtypeError(
         "Jenis darah tidak sesuai dengan golongan darah yang dipilih"
