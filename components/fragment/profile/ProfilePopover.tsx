@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Logout } from "@/lib/auth";
 
 const ProfilePopover = ({
@@ -14,7 +14,7 @@ const ProfilePopover = ({
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          className={`h-full px-5 py-3 md:block hidden font-bold ${
+          className={`h-full px-4 py-3 rounded md:block hidden font-bold ${
             isHome ? "bg-primary text-white" : "text-primary bg-white"
           }`}
         >

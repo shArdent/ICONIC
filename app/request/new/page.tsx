@@ -68,6 +68,24 @@ const NewRequestPage = () => {
           />
           <FormField
             control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel className="text-[1em]">
+                  No Handphone Penerima
+                </FormLabel>
+                <Input
+                  className="border-none shadow bg-[#f0f0f0] w-full"
+                  placeholder="08xxxxxxxxx"
+                  type="number"
+                  {...field}
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="kuantitas"
             render={({ field }) => (
               <FormItem className="">
@@ -88,7 +106,7 @@ const NewRequestPage = () => {
             control={form.control}
             name="alamat"
             render={({ field }) => (
-              <FormItem className="">
+              <FormItem className="md:col-span-2">
                 <FormLabel className="text-[1em]">
                   Alamat Rumah Penerima
                 </FormLabel>

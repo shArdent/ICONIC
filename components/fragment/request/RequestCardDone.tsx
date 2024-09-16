@@ -17,7 +17,7 @@ const RequestCardDone = ({
   time: string;
   status : string;
 }) => {
-  const displayDate = time.split("T")[0];
+  const displayDate = new Date(time.split("T")[0]);
   const displayTime = time.split("T")[1];
 
   return (
@@ -31,7 +31,7 @@ const RequestCardDone = ({
           <h1 className="font-bold text-base text-nowrap">{name} {status === "fulfilled" ? "(Terpenuhi)" : ""}</h1>
           <p>{hospital}</p>
           <p>
-            {displayDate.split("-").reverse().join("-")} |{" "}
+            {displayDate.toLocaleDateString("id-ID")} |{" "}
             {displayTime.slice(0, 5)}
           </p>
         </div>

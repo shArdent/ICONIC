@@ -54,12 +54,12 @@ const Register = () => {
   };
 
   return (
-    <div className="h-screen py-20 md:p-0 bg-primary flex items-center justify-center">
+    <div className="h-auto md:h-screen px-3 py-20 md:p-20 bg-primary flex items-center justify-center">
       <button
         onClick={() => router.back()}
-        className="absolute top-3 left-3 flex items-center gap-2 md:border-2 p-3 rounded-lg"
+        className="absolute top-3 left-3 flex items-center gap-2 z-10 md:border-2 p-3 rounded-lg"
       >
-        <ArrowLeft className="text-white" size={20} />
+        <ArrowLeft className="text-white " size={20} />
         <h1 className="text-white text-md md:text-xl">Kembali</h1>
       </button>
 

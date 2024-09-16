@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen bg-primary flex items-center justify-center">
+    <div className="h-screen bg-primary flex items-center justify-center px-3">
       <button
         onClick={() => router.back()}
         className="absolute top-3 left-3 flex  items-center gap-2 md:border-2 p-3 rounded-lg"

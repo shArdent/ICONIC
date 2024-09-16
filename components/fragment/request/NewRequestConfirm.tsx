@@ -33,10 +33,13 @@ const NewRequestConfirm = ({
       recipientAddress: newRequestData?.alamat,
       bloodType: newRequestData?.golonganDarah,
       quantity: newRequestData?.kuantitas,
+      phone: newRequestData?.phone,
       hospitalName: newRequestData?.rumahSakit.displayName,
       latitude: newRequestData?.rumahSakit.koordinat.lat,
       longitude: newRequestData?.rumahSakit.koordinat.lng,
     };
+
+    console.log(newRequest)
 
     setIsLoading(true);
     axios
@@ -54,13 +57,14 @@ const NewRequestConfirm = ({
         setError("Gagal menambahkan request. Coba kembali nanti");
         setIsLoading(false);
       });
+      setIsLoading(false);
   };
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          className={`${isLoading && "animate-pulse "} relative w-36 rigth-0 col-end-3 self-end justify-self-end`}
+          className={`${isLoading && "animate-pulse "} px-4 relative w-36 rigth-0 col-end-3 self-end justify-self-end`}
           disabled={isLoading}
           type="submit"
         >

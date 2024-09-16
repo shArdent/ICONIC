@@ -24,6 +24,7 @@ type DetailRecipient = {
   request_at: string;
   status: string | null;
   user_id: string;
+  phone : string
 };
 
 const Page = ({ params }: { params: { id: string } }) => {
@@ -35,9 +36,11 @@ const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
 
   useEffect(() => {
+    const controller = new AbortController();
     axios
       .get(`requests/${params.id}`)
       .then(({ data }) => {
+        console.log(data)
         setDetailData(data.data);
         setIsLoading(false);
       })
@@ -46,6 +49,8 @@ const Page = ({ params }: { params: { id: string } }) => {
           router.push("/login");
         }
       });
+
+      return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -84,8 +89,12 @@ const Page = ({ params }: { params: { id: string } }) => {
                 value={detailData?.recipient_address as string}
               />
               <IdentityDetail
+                label="No Handphone"
+                value={detailData?.phone as string}
+              />
+              <IdentityDetail
                 label="Tanggal Permintaan Dibuat"
-                value={detailData?.request_at.split("T")[0] as string}
+                value={(new Date(detailData?.request_at.split("T")[0] as string)).toLocaleDateString() as string}
               />
               <IdentityDetail
                 label="Status"
@@ -122,11 +131,11 @@ const Page = ({ params }: { params: { id: string } }) => {
             <DonorDialog
               id={detailData?.id}
               bloodType={detailData?.blood_type as string}
-              isDisabled={detailData?.status == "fulfilled"}
+              isDisabled={detailData?.status == "Tercukupi"}
             />
           </div>
           <h1 className="text-center mt-2">
-            {detailData?.status === "fulfilled"
+            {detailData?.status === "Tercukupi"
               ? "Permintaan sedang dalam proses pemenuhan atau selesai"
               : ""}
           </h1>

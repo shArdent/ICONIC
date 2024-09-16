@@ -23,6 +23,7 @@ const RequestsPage = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
+    const controller = new AbortController();
     setIsLoading(true);
     axiosAuth
       .get("requests")
@@ -40,6 +41,8 @@ const RequestsPage = () => {
       .finally(() => {
         setIsLoading(false);
       });
+
+    return () => controller.abort();
   }, [currentPosition?.lat, currentPosition?.lng]);
 
   return (

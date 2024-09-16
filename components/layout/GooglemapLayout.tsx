@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DirectionsRenderer, GoogleMap } from "@react-google-maps/api";
+import { DirectionsRenderer, GoogleMap, Marker, MarkerF } from "@react-google-maps/api";
 import { Position } from "@/types/requestTypes";
 
 const containerStyle = {
@@ -16,7 +16,9 @@ const GooglemapLayout = ({
   rsPos,
   isLoaded,
   loadError,
+  marker,
 }: {
+  marker? :any;
   loadError: Error | undefined;
   rsPos: Position | null;
   isLoaded: boolean;
@@ -68,7 +70,7 @@ const GooglemapLayout = ({
       {isLoaded && (
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={tasik}
+          center={marker ? rsPos : tasik}
           zoom={14}
           options={{
             zoomControl: true,
@@ -80,7 +82,8 @@ const GooglemapLayout = ({
             setMap(map);
           }}
         >
-          <DirectionsRenderer directions={directionResponse} />
+          {marker ? <Marker position={rsPos as any} /> : <DirectionsRenderer directions={directionResponse} />}
+          
         </GoogleMap>
       )}
     </div>

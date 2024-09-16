@@ -51,6 +51,7 @@ export function DonorDialog({
   });
 
   const onSubmit = (values: z.infer<typeof DonorSchema>) => {
+    setIsLoading(true);
     if (!bloodtypeMatcher[bloodType].includes(values.bloodType)) {
       setBloodtypeError(
         "Jenis darah tidak sesuai dengan golongan darah yang dipilih"
@@ -58,11 +59,14 @@ export function DonorDialog({
       return;
     }
 
+    console.log(values)
+
     axios
       .post(`donate/${id}`, values)
-      .then(({ data }) => {
+      .then((result) => {
+        console.log(result)
+        router.push(`/donor/${result.data.data[0].donor_id}`);  
         setIsLoading(false);
-        router.push(`/donor/${data.data[0].donor_id}`);
       })
       .catch((err) => {
         if (err.request.status == 401) {
@@ -76,7 +80,7 @@ export function DonorDialog({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button disabled={isDisabled}>Donor</Button>
+        <Button disabled={isDisabled} className="px-7">Donor</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -95,7 +99,22 @@ export function DonorDialog({
                   <FormLabel>Nama Pendonor</FormLabel>
                   <Input
                     className="border-none shadow bg-[#f0f0f0]"
-                    placeholder="Nama penerima donor"
+                    placeholder="Nama pendonor"
+                    {...field}
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>No Handphone Pendonor</FormLabel>
+                  <Input
+                    className="border-none shadow bg-[#f0f0f0]"
+                    placeholder="08xxxxxxxx"
                     {...field}
                   />
                   <FormMessage />
@@ -140,7 +159,7 @@ export function DonorDialog({
                 Cancel
               </AlertDialogCancel>
               <Button
-                className={`${isLoading ? "opacity-80" : ""}`}
+                className={`${isLoading ? "opacity-80" : ""} px-7`}
                 disabled={isLoading}
                 type="submit"
               >

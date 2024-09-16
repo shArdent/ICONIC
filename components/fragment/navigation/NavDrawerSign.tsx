@@ -44,12 +44,6 @@ export function NavDrawerSign({ username, isHome }: { username: string | null; i
                     <li>Request</li>
                   </Link>
                   <Link
-                    href={"/request"}
-                    className="border-b cursor-pointer transition-all hover:translate-x-2 px-2 py-2 rounded "
-                  >
-                    <li>Donor Sekarang</li>
-                  </Link>
-                  <Link
                     href={"/account/profile"}
                     className="border-b px-2 hover:translate-x-2 transition-all cursor-pointer py-2 rounded"
                   >

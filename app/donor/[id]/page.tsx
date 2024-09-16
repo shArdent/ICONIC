@@ -1,6 +1,7 @@
 "use client";
 
 import Loading from "@/app/loading";
+import FinishDialog from "@/components/fragment/donor/FinishDialog";
 import PendonorBox from "@/components/fragment/donor/PendonorBox";
 import PenerimaBox from "@/components/fragment/donor/PenerimaBox";
 import GooglemapLayout from "@/components/layout/GooglemapLayout";
@@ -24,12 +25,16 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [rumahSakitPos, setRumahSakitPos] = useState<any>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     setUser(JSON.parse((getCookie("user") as string) ?? null));
 
     axios
       .get(`donations/processed/${params.id}`)
       .then(({ data }) => {
         console.log(data.data[0]);
+        if (data.data[0].request.status === "Tercukupi") {
+          router.push(`/finished/${data.data[0].request.id}`);
+        }
         setPendonorData(data.data[0].donor);
         setPenerimaData(data.data[0].request);
         setIsLoading(false);
@@ -39,7 +44,12 @@ const Page = ({ params }: { params: { id: string } }) => {
         if (err.request.status === 401) {
           router.push("/login");
         }
+        if (err.request.status === 404) {
+          router.push("/notfound");
+        }
       });
+
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -68,21 +78,6 @@ const Page = ({ params }: { params: { id: string } }) => {
       });
   };
 
-  const handleFinish = () => {
-    axios
-      .post(`request/finish/${penerimaData.id}`)
-      .then((res) => {
-        console.log(res);
-        router.push("/request");
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.request.status === 401) {
-          router.push("/login");
-        }
-      });
-  };
-
   return (
     <div className="px-3 py-5 md:py-5 md:px-10">
       {isLoading ? (
@@ -94,15 +89,21 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div className="w-full flex flex-col md:flex-row py-7 gap-7">
             <div className="flex flex-col gap-7 w-full">
-              <PenerimaBox penerima={penerimaData} />
-              <PendonorBox pendonor={pendonorData} />
+              <div className="border-2 rounded-lg bg-slate-100">
+                <PenerimaBox penerima={penerimaData} />
+                <PendonorBox pendonor={pendonorData} />
+              </div>
               {user
                 ? user.id === penerimaData.user_id && (
                     <div className="flex gap-4">
-                      <Button onClick={handleCancel} className="w-full" variant={"outline"}>
+                      <Button
+                        onClick={handleCancel}
+                        className="w-full"
+                        variant={"outline"}
+                      >
                         Batalkan
                       </Button>
-                      <Button onClick={handleFinish} className="w-full">Selesai</Button>
+                      <FinishDialog reqId={penerimaData.id} />
                     </div>
                   )
                 : null}

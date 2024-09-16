@@ -1,3 +1,4 @@
+import { Phone } from "lucide-react"
 import { z, ZodType } from "zod"
 
 export type Request = {
@@ -6,7 +7,7 @@ export type Request = {
     name: string,
     blood_type: string,
     quantity: number,
-    status : string,
+    status: string,
     hospital_name: string,
     request_at: string,
     lat: number,
@@ -31,6 +32,7 @@ export type NewRequest = {
     golonganDarah: string,
     alamat: string,
     kuantitas: number,
+    phone: string,
     rumahSakit: {
         id: string,
         displayName: string,
@@ -48,7 +50,9 @@ export const NewRequestSchema: ZodType<NewRequest> = z.object({
     alamat: z.string({
         required_error: "Alamat harus diisi sesuai ktp",
     }),
-
+    phone: z.string({
+        required_error: "Nomor telepon harus diisi",
+    }),
     kuantitas: z.coerce
         .number({
             required_error: "Kuantitas harus diisi",
@@ -71,6 +75,7 @@ export const NewRequestSchema: ZodType<NewRequest> = z.object({
 export type Donor = {
     donorName: string,
     bloodType: string,
+    phone: string,
     donorAddress: string
 }
 
@@ -80,6 +85,9 @@ export const DonorSchema: ZodType<Donor> = z.object({
     }).refine((value) => {
         return value.length > 3 && value.trim() !== ""
     }, { message: "Input anda tidak valid" }),
+    phone : z.string({
+        required_error: "Nomor telepon harus diisi",
+    }),
     bloodType: z.string({
         required_error: "Golongan Darah harus diisi",
     }),
@@ -88,4 +96,20 @@ export const DonorSchema: ZodType<Donor> = z.object({
     }).refine((value: string) => {
         return value.trim() !== "" && value.length > 1
     }, { message: "Input anda tidak valid" }),
+})
+
+export type Done = {
+    jumlahTerpenuhi: number;
+}
+
+export const DoneSchema: ZodType<Done> = z.object({
+    jumlahTerpenuhi: z.coerce
+        .number({
+            required_error: "Kuantitas harus diisi",
+            invalid_type_error: "Kuantitas harus berupa angka",
+        })
+        .int()
+        .positive()
+        .min(1, { message: "Minimal kuantitas 1" }),
+
 })

@@ -1,10 +1,8 @@
 "use client";
 
 import JenisKelaminSelect from "@/components/fragment/profile/JenisKelaminSelect";
-import ProfileCalendar from "@/components/fragment/profile/ProfileCalendar";
 import { ProfileChangeDialog } from "@/components/fragment/profile/ProfileChangeDialog";
 import GolonganDarahSelect from "@/components/fragment/request/GolonganDarahSelect";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -22,7 +20,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { TypeOf, z } from "zod";
 import useAxiosAuth from "@/hooks/use-axios-auth";
-import { deleteCookie } from "cookies-next";
 
 const ProfilePage = () => {
   const [profileData, SetProfileData] = useState<User | null>(null);
@@ -32,6 +29,7 @@ const ProfilePage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    const controller = new AbortController();
     axios
       .get("auth/me")
       .then(({ data }) => {
@@ -39,10 +37,12 @@ const ProfilePage = () => {
         SetProfileData(data.user);
       })
       .catch((err) => {
-        if (err) {  
+        if (err) {
           router.push("/login");
         }
       });
+
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="w-full h-auto bg-white shadow py-5 px-10">
+    <div className="w-full h-auto bg-white shadow md:py-5 py-3 md:px-10 px-5 rounded">
       <h1 className="font-semibold text-4xl mb-3">Profil Saya</h1>
       <p className="text-sm mb-4">
         Kelola informasi profil Anda untuk mengontrol, melindungi dan
@@ -115,10 +115,10 @@ const ProfilePage = () => {
               render={({ field }) => (
                 <FormItem className="gap-10 flex w-full">
                   <FormLabel className=" text-right self-center w-[14%]">
-                    Username
+                    Email
                   </FormLabel>
                   <Input
-                    placeholder="Username anda"
+                    placeholder="Email anda"
                     type="email"
                     className="border-none shadow bg-[#f0f0f0]"
                     {...field}

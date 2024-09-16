@@ -5,7 +5,7 @@ import { NavDrawerSign } from "./NavDrawerSign";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@/types/authTypes";
-import ProfilePopover from "../ProfilePopover";
+import ProfilePopover from "@/components/fragment/profile/ProfilePopover";
 import { getCookie } from "cookies-next";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -78,7 +78,7 @@ const Navbar = () => {
           <div>
             <NavDrawerUnsign isHome={isHome} />
             <Link href={"/login"}>
-              <Button
+              <Button size={"lg"}
                 className={`hidden md:block font-bold ${
                   isHome ? "text-white" : "bg-white text-primary"
                 }`}
