@@ -31,10 +31,11 @@ const Page = ({ params }: { params: { id: string } }) => {
     axios
       .get(`donations/processed/${params.id}`)
       .then(({ data }) => {
+        console.log(data);
         console.log(data.data[0]);
-        if (data.data[0].request.status === "Tercukupi") {
-          router.push(`/finished/${data.data[0].request.id}`);
-        }
+        // if (data.data[0].request.status === "Tercukupi") {
+        //   router.push(`/finished/${data.data[0].request.id}`);
+        // }
         setPendonorData(data.data[0].donor);
         setPenerimaData(data.data[0].request);
         setIsLoading(false);
