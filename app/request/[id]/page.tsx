@@ -129,7 +129,8 @@ const Page = ({ params }: { params: { id: string } }) => {
               <Button variant={"outline"}>Kembali</Button>
             </Link>
             <DonorDialog
-              id={detailData?.id}
+              requestId={detailData?.id as number}
+              requestUserId={detailData?.user_id as string}
               bloodType={detailData?.blood_type as string}
               isDisabled={detailData?.status == "Tercukupi"}
             />

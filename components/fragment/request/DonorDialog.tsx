@@ -16,14 +16,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { DonorSchema } from "@/types/requestTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { z, ZodType } from "zod";
 import GolonganDarahSelect from "./GolonganDarahSelect";
 import useAxiosAuth from "@/hooks/use-axios-auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { DonorSchema } from "@/types/requestTypes";
 
 const bloodtypeMatcher: { [key: string]: string[] } = {
   A: ["A", "AB", "O"],
@@ -33,12 +33,14 @@ const bloodtypeMatcher: { [key: string]: string[] } = {
 };
 
 export function DonorDialog({
-  id,
+  requestId,
+  requestUserId,
   bloodType,
   isDisabled,
 }: {
   bloodType: string;
-  id: number | undefined;
+  requestId: number;
+  requestUserId: string;
   isDisabled: boolean;
 }) {
   const [bloodtypeError, setBloodtypeError] = useState<string | null>(null);
@@ -56,16 +58,22 @@ export function DonorDialog({
       setBloodtypeError(
         "Jenis darah tidak sesuai dengan golongan darah yang dipilih"
       );
+      setIsLoading(false);
       return;
     }
 
-    console.log(values)
+    const payload = {
+      ...values,
+      requestUser: requestUserId,
+    };
+
+    console.log(payload);
 
     axios
-      .post(`donate/${id}`, values)
+      .post(`donate/${requestId}`, payload)
       .then((result) => {
-        console.log(result)
-        router.push(`/donor/${result.data.data[0].donor_id}`);  
+        console.log(result);
+        router.push(`/donor/${result.data.data[0].donor_id}`);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -80,7 +88,9 @@ export function DonorDialog({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button disabled={isDisabled} className="px-7">Donor</Button>
+        <Button disabled={isDisabled} className="px-7">
+          Donor
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

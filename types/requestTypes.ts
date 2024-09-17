@@ -1,4 +1,4 @@
-import { Phone } from "lucide-react"
+
 import { z, ZodType } from "zod"
 
 export type Request = {
@@ -79,24 +79,34 @@ export type Donor = {
     donorAddress: string
 }
 
-export const DonorSchema: ZodType<Donor> = z.object({
-    donorName: z.string({
+export const DonorSchema : ZodType<Donor>= z.object({
+    donorName: z
+      .string({
         required_error: "Nama harus diisi",
-    }).refine((value) => {
-        return value.length > 3 && value.trim() !== ""
-    }, { message: "Input anda tidak valid" }),
-    phone : z.string({
-        required_error: "Nomor telepon harus diisi",
+      })
+      .refine(
+        (value) => {
+          return value.length > 3 && value.trim() !== "";
+        },
+        { message: "Input anda tidak valid" }
+      ),
+    phone: z.string({
+      required_error: "Nomor telepon harus diisi",
     }),
     bloodType: z.string({
-        required_error: "Golongan Darah harus diisi",
+      required_error: "Golongan Darah harus diisi",
     }),
-    donorAddress: z.string({
+    donorAddress: z
+      .string({
         required_error: "Alamat harus diisi sesuai ktp",
-    }).refine((value: string) => {
-        return value.trim() !== "" && value.length > 1
-    }, { message: "Input anda tidak valid" }),
-})
+      })
+      .refine(
+        (value: string) => {
+          return value.trim() !== "" && value.length > 1;
+        },
+        { message: "Input anda tidak valid" }
+      ),
+  });
 
 export type Done = {
     jumlahTerpenuhi: number;
