@@ -81,7 +81,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         />
         <div className="flex flex-col bg-slate-100 p-3 shadow-lg rounded-lg">
           <h1 className="text-3xl font-bold mb-5">Identitas Penerima :</h1>
-          <div className="grid grid-cols-2 w-full gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">
             <div className="grid grid-cols-1 gap-5">
               <IdentityDetail label="Nama" value={detailData?.name as string} />
               <IdentityDetail

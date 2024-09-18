@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DirectionsRenderer, GoogleMap, Marker, MarkerF } from "@react-google-maps/api";
+import { DirectionsRenderer, GoogleMap, Marker } from "@react-google-maps/api";
 import { Position } from "@/types/requestTypes";
 
 const containerStyle = {
   width : "100%",
-  minWidth: "400px",
+  minWidth: "300px",
   height: "100%",
   minHeight: "300px",
   borderRadius: "10px",

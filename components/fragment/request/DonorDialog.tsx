@@ -164,12 +164,12 @@ export function DonorDialog({
                 </FormItem>
               )}
             />
-            <div className="flex gap-3 justify-end">
+            <div className="self-end gap-3 justify-end items-center h-10">
               <AlertDialogCancel className="h-10 px-6 py-2">
                 Cancel
               </AlertDialogCancel>
               <Button
-                className={`${isLoading ? "opacity-80" : ""} px-7`}
+                className={`${isLoading ? "opacity-80" : ""} px-7 h-10 ml-3`}
                 disabled={isLoading}
                 type="submit"
               >
