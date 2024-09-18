@@ -60,8 +60,7 @@ export function FeatureCardMobile() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+
     </Carousel>
   );
 }
