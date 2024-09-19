@@ -15,7 +15,7 @@ const HistoryCard = ({ request }: { request: any }) => {
               ? request.donor.donor_name
               : request.blood_request.name}
           </h1>
-          <p className="text-base">
+          <p className="text-xs md:text-base">
             Melakukan {request.option} Pada{" "}
             {displayDate.toLocaleDateString("id-ID")} |{" "}
             {displayTime.slice(0, 5)}

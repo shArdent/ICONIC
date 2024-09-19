@@ -22,7 +22,7 @@ const SideMenu = () => {
         <ul className="flex md:flex-col gap-1 h-full w-full md:gap-4">
           <Link
             className={`text-center w-auto p-2 shadow hover:bg-slate-200 text-sm  rounded-lg flex items-center justify-center
-            md:w-full text-gray-500 text-md hover:text-red-400 ${
+            md:w-full text-gray-500 text-md hover:text-[#C10016] ${
               pathname === "profile"
                 ? "text-primary bg-slate-200"
                 : "bg-slate-100"
@@ -37,7 +37,7 @@ const SideMenu = () => {
               pathname === "progress"
                 ? "text-primary bg-slate-200"
                 : "bg-slate-100"
-            } text-gray-500 text-md hover:text-red-400 `}
+            } text-gray-500 text-md hover:text-[#C10016] `}
             href={"/account/progress"}
           >
             <li className="font-bold text-nowrap">Proses Donor Saat Ini</li>
@@ -48,7 +48,7 @@ const SideMenu = () => {
               pathname === "history"
                 ? "text-primary bg-slate-200"
                 : "bg-slate-100"
-            } text-gray-500 text-md hover:text-red-400 `}
+            } text-gray-500 text-md hover:text-[#C10016] `}
             href={"/account/history"}
           >
             <li className="font-bold text-nowrap">Riwayat Donor</li>

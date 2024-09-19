@@ -63,8 +63,8 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="w-full h-auto bg-white shadow md:py-5 py-3 md:px-10 px-5 rounded">
-      <h1 className="font-semibold text-4xl mb-3">Profil Saya</h1>
+    <div className="w-full h-auto bg-white shadow md:py-5 py-3 md:px-5 px-5 rounded">
+      <h1 className="font-semibold text-3xl mb-3">Profil Saya</h1>
       <p className="text-sm mb-4">
         Kelola informasi profil Anda untuk mengontrol, melindungi dan
         mengamankan akun
@@ -79,8 +79,8 @@ const ProfilePage = () => {
               control={form.control}
               name="id"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-center w-[14%]">
+                <FormItem className="gap-10 flex w-full justify-between">
+                  <FormLabel className="text-left self-center w-28">
                     Id
                   </FormLabel>
                   <Input
@@ -95,8 +95,8 @@ const ProfilePage = () => {
               control={form.control}
               name="username"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-center w-[14%]">
+                <FormItem className="gap-10 flex justify-between w-full ">
+                  <FormLabel className="text-left self-center w-28">
                     Username
                   </FormLabel>
                   <Input
@@ -113,14 +113,14 @@ const ProfilePage = () => {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-center w-[14%]">
+                <FormItem className="gap-10 flex w-full justify-between">
+                  <FormLabel className="text-left self-center w-28">
                     Email
                   </FormLabel>
                   <Input
                     placeholder="Email anda"
                     type="email"
-                    className="border-none shadow bg-[#f0f0f0]"
+                    className="border-none shadow bg-[#f0f0f0] w-full"
                     {...field}
                   />
                   <FormMessage />
@@ -131,8 +131,8 @@ const ProfilePage = () => {
               control={form.control}
               name="phone"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-center w-[14%]">
+                <FormItem className="gap-10 flex w-full justify-between">
+                  <FormLabel className="text-left self-center w-28">
                     Nomor Telepon
                   </FormLabel>
                   <Input
@@ -150,8 +150,8 @@ const ProfilePage = () => {
               control={form.control}
               name="first_name"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-center w-[14%]">
+                <FormItem className="gap-10 flex w-full justify-between">
+                  <FormLabel className="text-left self-center w-28">
                     Nama Depan
                   </FormLabel>
                   <Input
@@ -167,8 +167,8 @@ const ProfilePage = () => {
               control={form.control}
               name="last_name"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-center w-[14%]">
+                <FormItem className="gap-10 flex w-full justify-between">
+                  <FormLabel className="text-left self-center w-28">
                     Nama Belakang
                   </FormLabel>
                   <Input
@@ -184,8 +184,8 @@ const ProfilePage = () => {
               control={form.control}
               name="blood_type"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-center w-[14%]">
+                <FormItem className="gap-10 flex w-full justify-between">
+                  <FormLabel className="text-left self-center w-28">
                     Golongan Darah
                   </FormLabel>
                   <GolonganDarahSelect field={field} />
@@ -197,8 +197,8 @@ const ProfilePage = () => {
               control={form.control}
               name="gender"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-center w-[14%]">
+                <FormItem className="gap-10 flex w-full justify-between">
+                  <FormLabel className="text-left self-center w-28">
                     Jenis Kelamin
                   </FormLabel>
                   <JenisKelaminSelect field={field} />
@@ -210,8 +210,8 @@ const ProfilePage = () => {
               control={form.control}
               name="birthdate"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-center w-[14%]">
+                <FormItem className="gap-10 flex w-full justify-between">
+                  <FormLabel className="text-left self-center w-28">
                     Tanggal Lahir
                   </FormLabel>
                   <Input
@@ -227,8 +227,8 @@ const ProfilePage = () => {
               control={form.control}
               name="address"
               render={({ field }) => (
-                <FormItem className="gap-10 flex w-full">
-                  <FormLabel className=" text-right self-start w-[14%] pt-2">
+                <FormItem className="gap-10 flex w-full justify-between">
+                  <FormLabel className="text-left self-start w-28 pt-2">
                     Alamat Rumah
                   </FormLabel>
                   <FormControl>

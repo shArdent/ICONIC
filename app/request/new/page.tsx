@@ -31,7 +31,7 @@ const NewRequestPage = () => {
   return (
     <div className="h-screen flex flex-col items-center bg-slate-100 p-5 md:py-7">
       <div className="w-full md:w-[75%]">
-        <h1 className="text-left text-3xl font-medium mb-5 md:text-4xl ">
+        <h1 className="text-left text-3xl font-bold mb-5 md:text-4xl">
           Buat Permintaan Darah
         </h1>
       </div>

@@ -1,8 +1,7 @@
 "use client";
 
 import Loading from "@/app/loading";
-import ProgressCard from "@/components/fragment/profile/ProgressCard";
-import { Button } from "@/components/ui/button";
+import ProgressCard from "@/components/fragment/profile/ProgressCard";   
 import useAxiosAuth from "@/hooks/use-axios-auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,8 +30,8 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="w-full h-auto bg-white shadow md:py-5 py-3 md:px-10 px-5 rounded">
-      <h1 className="font-semibold text-4xl mb-3">Proses Donor</h1>
+    <div className="w-full h-auto bg-white shadow md:py-5 py-3 px-5 rounded">
+      <h1 className="font-semibold text-3xl mb-3">Proses Donor</h1>
       <p className="text-sm mb-4">
         Proses donor darah yang sedang berjalan saat ini
       </p>

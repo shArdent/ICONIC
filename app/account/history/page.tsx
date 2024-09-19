@@ -32,8 +32,8 @@ const HistoryPage = () => {
       return () => controller.abort();
   }, []);
   return (
-    <div className="w-full h-auto bg-white shadow md:py-5 py-3 md:px-10 px-5 rounded">
-      <h1 className="font-semibold text-4xl mb-3">Riwayat Donor</h1>
+    <div className="w-full h-auto bg-white shadow md:py-5 py-3 px-5 rounded">
+      <h1 className="font-semibold text-3xl mb-3">Riwayat Donor</h1>
       <p className="text-sm mb-4">
         Riwayat donor darah yang pernah anda lakukan
       </p>

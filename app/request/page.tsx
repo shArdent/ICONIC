@@ -80,7 +80,7 @@ const RequestsPage = () => {
                   ))}
               </div>
               <hr />
-              <h1 className="text-3xl font-bold md:text-3xl mt-3">
+              <h1 className="text-3xl font-bold md:text-2xl mt-3">
                 Permintaan {isMobile && <br />} Darah Terpenuhi
               </h1>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 mb-5">

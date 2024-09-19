@@ -15,7 +15,7 @@ const ProgressCard = ({ data }: { data: any }) => {
           {data.request.blood_type}
         </div>
 
-        <div className="flex flex-col justify-around text-sm h-auto w-full">
+        <div className="flex flex-col justify-around h-auto w-full">
           <div className="flex flex-col md:flex-row gap-0 md:gap-2">
             <h1 className="font-bold text-base text-nowrap">
               Penerima : {data.request.name}
@@ -25,11 +25,16 @@ const ProgressCard = ({ data }: { data: any }) => {
               Pendonor : {data.donor.donor_name}
             </h1>
           </div>
-          <p>{data.request.hospital_name}</p>
-          <p>
+
+          <p className="text-sm">{data.request.hospital_name}</p>
+          <p className="text-xs">
             {displayDate} | {displayTime.slice(0, 5)}
           </p>
-          <Link href={`/donor/${data.donor_id}`} className="w-full h-full mt-1 block md:hidden">
+
+          <Link
+            href={`/donor/${data.donor_id}`}
+            className="w-full h-full mt-1 block md:hidden"
+          >
             <Button className=" h-full rounded w-full">Rincian</Button>
           </Link>
         </div>
