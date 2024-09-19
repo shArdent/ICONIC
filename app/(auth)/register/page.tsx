@@ -64,7 +64,7 @@ const Register = () => {
       </button>
 
       <div className="bg-white p-7 rounded-lg flex flex-col gap-7 md:w-[65%]">
-        <h1 className="text-3xl font-bold">Masuk Dengan Akun</h1>
+        <h1 className="text-3xl font-bold">Buat Akun</h1>
 
         <form
           className="flex flex-col md:grid md:grid-cols-2 gap-3 gap-col-4"
