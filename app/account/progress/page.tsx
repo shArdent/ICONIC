@@ -35,7 +35,7 @@ const Page = () => {
       <p className="text-sm mb-4">
         Proses donor darah yang sedang berjalan saat ini
       </p>
-      <div className="flex flex-col relative w-full gap-4 h-auto justify-center items-center">
+      <div className="flex flex-col relative w-full gap-4 h-auto min-h-44 justify-center items-center">
         {isLoading ? (
           <Loading />
         ) : processData ? (
