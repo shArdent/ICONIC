@@ -32,7 +32,6 @@ const Page = ({ params }: { params: { id: string } }) => {
       .get(`donations/processed/${params.id}`)
       .then(({ data }) => {
         console.log(data);
-        console.log(data.data[0]);
         // if (data.data[0].request.status === "Tercukupi") {
         //   router.push(`/finished/${data.data[0].request.id}`);
         // }
@@ -55,10 +54,11 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     if (isLoaded && !!penerimaData) {
-      getRs(penerimaData.hospital_name).then((data) => {
+      getRs(penerimaData.hospital_name).then((data : any) => {
+        const rs = data[0];
         setRumahSakitPos({
-          lat: data.location?.lat() as number,
-          lng: data.location?.lng() as number,
+          lat: rs.location?.lat() as number,
+          lng: rs.location?.lng() as number,
         });
       });
     }

@@ -78,7 +78,7 @@ const Navbar = () => {
           <div>
             <NavDrawerUnsign isHome={isHome} />
             <Link href={"/login"}>
-              <Button size={"lg"}
+              <Button 
                 className={`hidden md:block font-bold ${
                   isHome ? "text-white" : "bg-white text-primary"
                 }`}

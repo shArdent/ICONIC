@@ -18,11 +18,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { starterPlaces } from "@/lib/fetch-map";
+import { getRs, starterPlaces } from "@/lib/fetch-map";
 import { useLoadGoogleMaps } from "@/hooks/use-load-google-maps";
 import { FormControl } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { NewRequest } from "@/types/requestTypes";
+import useDebounce from "@/hooks/use-debounce";
 
 interface Places extends google.maps.places.PlaceResult {
   displayName: string;
@@ -82,6 +83,7 @@ export function RsSearch({
             setOpen={setOpen}
             places={places}
             setSelectedValue={setSelectedValue}
+            setPlaces={setPlaces}
           />
         </PopoverContent>
       </Popover>
@@ -108,6 +110,7 @@ export function RsSearch({
             places={places}
             setOpen={setOpen}
             setSelectedValue={setSelectedValue}
+            setPlaces={setPlaces}
           />
         </div>
       </DrawerContent>
@@ -119,16 +122,36 @@ function StatusList({
   form,
   setOpen,
   places,
+  setPlaces,
   setSelectedValue,
 }: {
+  setPlaces: React.Dispatch<React.SetStateAction<Places[] | null>>;
   form: UseFormReturn<NewRequest, any, undefined>;
   places: Places[] | null;
   setOpen: (open: boolean) => void;
   setSelectedValue: (value: Places | null) => void;
 }) {
+  const [searchText, setSearchText] = React.useState<string>("");
+  const debouncedSearch = useDebounce(searchText, 1500);
+
+  React.useEffect(() => {
+    if (debouncedSearch) {
+        getRs(debouncedSearch).then((data) => {
+          setPlaces(data as Places[]);
+        });
+    }
+  }, [debouncedSearch]);
+
   return (
     <Command>
-      <CommandInput placeholder="Nama Rumah Sakit..." />
+      <CommandInput
+        placeholder="Cari Rumah Sakit..."
+        onValueChange={(value) => {
+          if (value.trim() !== "") {
+            setSearchText(value);
+          }
+        }}
+      />
       <CommandList>
         <CommandEmpty>Tidak Ditemukan</CommandEmpty>
         <CommandGroup>

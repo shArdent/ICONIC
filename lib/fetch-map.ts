@@ -23,6 +23,27 @@ export const starterPlaces = async (currentPosition: google.maps.LatLng) => {
 };
 
 export const getRs = async (textQuery: string) => {
+    let posisi: any;
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        const earthRadius = 6371; // Radius bumi dalam kilometer
+
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        const biasDistance = 10; // kilometer
+
+        const latBias = biasDistance / earthRadius * (180 / Math.PI);
+
+        const lngBias = biasDistance / (earthRadius * Math.cos(lat * Math.PI / 180)) * (180 / Math.PI);
+
+        posisi = {
+            lat: lat + latBias,
+            lng: lng + lngBias
+        };
+
+    })
+
 
     const { Place } = await google.maps.importLibrary(
         "places"
@@ -40,6 +61,6 @@ export const getRs = async (textQuery: string) => {
     //@ts-ignore
     const { places } = await Place.searchByText(request)
 
-    return places[0];
+    return places;
 
 }
